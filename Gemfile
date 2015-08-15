@@ -5,8 +5,7 @@ gem 'rails-api'
 gem 'spring', :group => :development
 gem 'pg'
 gem 'devise_token_auth'
-
-
+gem 'omniauth'
 
 # To use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'

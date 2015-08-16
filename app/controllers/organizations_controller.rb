@@ -15,6 +15,10 @@ class OrganizationsController < ApplicationController
     render json: @organization
   end
 
+  def new
+    @organization = Organization.new
+  end
+
   # POST /organizations
   # POST /organizations.json
   def create

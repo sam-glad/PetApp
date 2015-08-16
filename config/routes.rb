@@ -1,6 +1,5 @@
 Rails.application.routes.draw do
-  resources :organization_memberships, except: [:new, :edit]
-  resources :organizations, except: [:new, :edit]
+  resources :organizations
   mount_devise_token_auth_for 'User', at: 'auth'
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

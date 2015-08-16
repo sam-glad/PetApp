@@ -7,6 +7,7 @@ gem 'pg'
 gem 'devise_token_auth'
 gem 'omniauth'
 gem 'factory_girl_rails'
+gem 'active_model_serializers', '~> 0.8.3'
 
 group :development, :test do
   gem 'rspec-rails', '~> 3.0.0'

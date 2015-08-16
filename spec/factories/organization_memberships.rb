@@ -1,0 +1,6 @@
+FactoryGirl.define do
+  factory :organization_membership do
+    
+  end
+
+end

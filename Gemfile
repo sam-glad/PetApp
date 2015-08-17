@@ -14,6 +14,10 @@ group :development, :test do
   gem 'pry'
 end
 
+group :test do
+  gem 'shoulda-matchers'
+end
+
 # To use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 

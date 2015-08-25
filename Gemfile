@@ -13,6 +13,7 @@ gem 'rack-cors', :require => 'rack/cors'
 group :development, :test do
   gem 'rspec-rails', '~> 3.0.0'
   gem 'pry'
+  gem 'railroady'
 end
 
 group :test do

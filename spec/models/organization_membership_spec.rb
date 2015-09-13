@@ -1,5 +1,15 @@
 require 'rails_helper'
 
-RSpec.describe OrganizationMembership, :type => :model do
-  pending "add some examples to (or delete) #{__FILE__}"
+describe OrganizationMembership do
+  context 'Validations' do
+    describe 'name' do
+       it { should validate_presence_of(:user_id) }
+       it { should validate_presence_of(:organization_id) }
+    end
+  end
+
+  context 'Associations' do
+    it { should belong_to(:organization) }
+    it { should belong_to(:user) }
+  end
 end

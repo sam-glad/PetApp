@@ -11,3 +11,9 @@
 /log/*
 !/log/.keep
 /tmp
+
+# Ignore SimpleCov's coverage data
+/coverage
+
+# Ignore auto-generated schemas (diagrams)
+/doc

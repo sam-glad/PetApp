@@ -19,6 +19,7 @@ end
 group :test do
   gem 'shoulda-matchers'
   gem 'simplecov', require: false
+  gem 'database_cleaner'
 end
 
 # To use ActiveModel has_secure_password

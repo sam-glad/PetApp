@@ -23,9 +23,20 @@ RSpec.describe OrganizationsController, :type => :controller do
   # This should return the minimal set of attributes required to create a valid
   # Organization. As you add validations to Organization, be sure to
   # adjust the attributes here as well.
-  let(:valid_attributes) {
-    { name: 'Testing foobar' }
-  }
+  let(:valid_attributes) { FactoryGirl.attributes_for(:organization) }
+
+  # For use in testing PUT functionality
+  let(:new_attributes) {
+    { name: 'Testing foobar',
+      city: 'Allston',
+      state_province: 'Massachusetts',
+      phone_number: '123456789',
+      phone_extension: '90',
+      country: 'United States',
+      website: 'http://www.example.com/foobar',
+      email_address: 'foobar@example.com',
+      phone_preferred: false }
+    }
 
   let(:invalid_attributes) {
     { name: ' ' }
@@ -77,15 +88,13 @@ RSpec.describe OrganizationsController, :type => :controller do
 
   describe "PUT update" do
     describe "with valid params" do
-      let(:new_attributes) {
-        { organization: :valid_attributes }
-      }
-
       it "updates the requested organization" do
         organization = Organization.create! valid_attributes
         put :update, {:id => organization.to_param, :organization => new_attributes}, valid_session
         organization.reload
-        expect(organization.attributes).to include( { 'name' => 'Testing foobar' } )
+        new_attributes.each_pair do |key, value|
+          expect(organization[key]).to eq(value)
+        end
       end
 
       it "assigns the requested organization as @organization" do

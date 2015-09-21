@@ -3,4 +3,5 @@ class Question < ActiveRecord::Base
   validates :application_form_id, presence: true
 
   belongs_to :application_form
+  has_many :options
 end

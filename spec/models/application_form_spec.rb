@@ -5,6 +5,7 @@ RSpec.describe ApplicationForm, :type => :model do
     it { should validate_presence_of(:name) }
     it { should validate_uniqueness_of(:name) }
     it { should_not allow_value(' ').for(:name) }
+    it { should allow_value(:nil).for(:organization_id) }
   end
 
   context 'Associations' do

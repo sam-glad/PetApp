@@ -1,21 +1,15 @@
 FactoryGirl.define do
   factory :pet do
-    animal "MyString"
-mix ""
-age "MyString"
-name "MyString"
-available_date "2015-08-15 22:32:59"
-size "MyString"
-sex "MyString"
-weight 1
-description "MyString"
-status "MyString"
-good_with_dogs ""
-good_with_cats ""
-good_with_kids ""
-fence_required ""
-fence_height 1
-breed_experience_required ""
+    animal 'Dog'
+    is_mix? false
+    age 'Young'
+    name 'Doggie'
+    size 'XL'
+    sex 'M'
+    description 'A description'
+    status 'Adoptable'
+    good_with_dogs true
+    good_with_cats false
+    good_with_kids false
   end
-
 end

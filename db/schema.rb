@@ -53,24 +53,19 @@ ActiveRecord::Schema.define(version: 20150921202844) do
 
   create_table "pets", force: :cascade do |t|
     t.string   "animal"
-    t.boolean  "mix"
-    t.integer  "age"
+    t.boolean  "is_mix?"
+    t.string   "age"
     t.string   "name"
-    t.datetime "available_date"
     t.string   "size"
     t.string   "sex"
-    t.integer  "weight"
     t.string   "description"
     t.string   "status"
     t.boolean  "good_with_dogs"
     t.boolean  "good_with_cats"
     t.boolean  "good_with_kids"
-    t.boolean  "fence_required"
-    t.integer  "fence_height"
-    t.boolean  "breed_experience_required"
     t.integer  "organization_id"
-    t.datetime "created_at",                null: false
-    t.datetime "updated_at",                null: false
+    t.datetime "created_at",      null: false
+    t.datetime "updated_at",      null: false
   end
 
   create_table "questions", force: :cascade do |t|

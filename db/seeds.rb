@@ -1,11 +1,10 @@
 user1 = User.create(email: 'user1@example.com', password: 'password')
 user2 = User.create(email: 'user2@example.com', password: 'password')
 
-pet1 = Pet.create(animal: 'dog', mix: 'false', age: 2, name: 'Boomer',
-  available_date: Time.now, size: 'XL', sex: 'M', weight: 138,
-  description: 'A bear', status: 'Unavailable', good_with_dogs: true,
-  good_with_cats: false, good_with_kids: true, fence_required: false,
-  fence_height: 0, breed_experience_required: false)
+pet1 = Pet.create(animal: 'dog', is_mix?: 'false', age: 2, name: 'Boomer',
+  size: 'XL', sex: 'M', description: 'A bear',
+  status: 'Unavailable', good_with_dogs: true, good_with_cats: false,
+  good_with_kids: true)
 
 organization1 = Organization.create(name: 'Worcester Saint Bernard Rescue',
                                     city: 'Worcester',

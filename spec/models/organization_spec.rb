@@ -22,5 +22,6 @@ describe Organization do
   context 'Associations' do
     it { should have_many(:organization_memberships) }
     it { should have_many(:users).through(:organization_memberships) }
+    it { should have_many(:application_forms) }
   end
 end

@@ -11,10 +11,24 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150825174600) do
+ActiveRecord::Schema.define(version: 20150921202844) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "answers", force: :cascade do |t|
+    t.string   "body"
+    t.integer  "question_id"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+  end
+
+  create_table "application_forms", force: :cascade do |t|
+    t.string   "name",            null: false
+    t.integer  "organization_id"
+    t.datetime "created_at",      null: false
+    t.datetime "updated_at",      null: false
+  end
 
   create_table "organization_memberships", force: :cascade do |t|
     t.integer  "organization_id"
@@ -59,6 +73,13 @@ ActiveRecord::Schema.define(version: 20150825174600) do
     t.datetime "updated_at",                null: false
   end
 
+  create_table "questions", force: :cascade do |t|
+    t.string   "body",                null: false
+    t.integer  "application_form_id", null: false
+    t.datetime "created_at",          null: false
+    t.datetime "updated_at",          null: false
+  end
+
   create_table "users", force: :cascade do |t|
     t.string   "provider",               default: "email", null: false
     t.string   "uid",                    default: "",      null: false
@@ -71,10 +92,6 @@ ActiveRecord::Schema.define(version: 20150825174600) do
     t.datetime "last_sign_in_at"
     t.string   "current_sign_in_ip"
     t.string   "last_sign_in_ip"
-    t.string   "confirmation_token"
-    t.datetime "confirmed_at"
-    t.datetime "confirmation_sent_at"
-    t.string   "unconfirmed_email"
     t.string   "name"
     t.string   "nickname"
     t.string   "image"

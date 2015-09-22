@@ -7,16 +7,8 @@ RSpec.describe ApplicationFormsController, :type => :routing do
       expect(:get => "/application_forms").to route_to("application_forms#index")
     end
 
-    it "routes to #new" do
-      expect(:get => "/application_forms/new").to route_to("application_forms#new")
-    end
-
     it "routes to #show" do
       expect(:get => "/application_forms/1").to route_to("application_forms#show", :id => "1")
-    end
-
-    it "routes to #edit" do
-      expect(:get => "/application_forms/1/edit").to route_to("application_forms#edit", :id => "1")
     end
 
     it "routes to #create" do

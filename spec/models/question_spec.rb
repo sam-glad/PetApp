@@ -7,11 +7,11 @@ RSpec.describe Question, :type => :model do
     it "validates uniqueness of body" do
       FactoryGirl.create(:question)
         should validate_uniqueness_of(:body)
-        should validate_presence_of(:body)
-        should_not allow_value(' ').for(:body)
-        should validate_presence_of(:application_form_id)
-        should have_many(:answers)
     end
+    it { should validate_presence_of(:body) }
+    it { should_not allow_value(' ').for(:body) }
+    it { should validate_presence_of(:application_form) }
+    it { should have_many(:answers) }
   end
 
   context 'Associations' do

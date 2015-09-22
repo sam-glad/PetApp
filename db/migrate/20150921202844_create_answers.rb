@@ -1,6 +1,6 @@
-class CreateOptions < ActiveRecord::Migration
+class CreateAnswers < ActiveRecord::Migration
   def change
-    create_table :options do |t|
+    create_table :answers do |t|
       t.string :body
       t.integer :question_id
 

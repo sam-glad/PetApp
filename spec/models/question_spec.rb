@@ -10,7 +10,7 @@ RSpec.describe Question, :type => :model do
         should validate_presence_of(:body)
         should_not allow_value(' ').for(:body)
         should validate_presence_of(:application_form_id)
-        should have_many(:options)
+        should have_many(:answers)
     end
   end
 

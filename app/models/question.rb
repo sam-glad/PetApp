@@ -3,5 +3,6 @@ class Question < ActiveRecord::Base
   validates :application_form, presence: true
 
   belongs_to :application_form, inverse_of: :questions
-  has_many :options
+  has_many :answers, inverse_of: :question
+  accepts_nested_attributes_for :answers, allow_destroy: true
 end

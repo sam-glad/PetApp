@@ -1,5 +1,5 @@
 FactoryGirl.define do
-  factory :option do
+  factory :answer do
     body "MyString"
 question_id 1
   end

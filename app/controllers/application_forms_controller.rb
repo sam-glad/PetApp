@@ -55,6 +55,6 @@ class ApplicationFormsController < ApplicationController
 
     def application_form_params
       # params[:application_form]
-      params.require(:application_form).permit(:name, questions_attributes: [:body, options_attributes: [:body] ])
+      params.require(:application_form).permit(:name, questions_attributes: [:body, answers_attributes: [:body] ])
     end
 end

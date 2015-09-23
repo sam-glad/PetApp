@@ -1,28 +1,5 @@
-== README
+The plan for this application is to allow users who work or volunteer at animal shelters and rescues to create application forms and manage applications completed by other uses for adopting out their various critters. This is an ongoing work in progress, and I will keep the ER diagram up to date with the master branch.
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+Note that this is a Rails API, and, once deployed on Heroku, it will be accessed via a separate front end (https://github.com/sam-glad/PetAppAngular).
 
-Things you may want to cover:
-
-* Ruby version
-
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
-
-
-Please feel free to use a different markup language if you do not plan to run
-<tt>rake doc:app</tt>.
+I have been using this project as an opportunity not only to review Ruby on Rails and continue learning AngularJS, but also to learn about CORS hands-on and to practice TDD again, which I have been pleasantly surprised to find that I have been enjoying.

@@ -69,8 +69,9 @@ ActiveRecord::Schema.define(version: 20150922234823) do
     t.boolean  "good_with_cats"
     t.boolean  "good_with_kids"
     t.integer  "organization_id"
-    t.datetime "created_at",      null: false
-    t.datetime "updated_at",      null: false
+    t.integer  "application_form_id"
+    t.datetime "created_at",          null: false
+    t.datetime "updated_at",          null: false
   end
 
   create_table "questions", force: :cascade do |t|

@@ -6,5 +6,6 @@ class Pet < ActiveRecord::Base
   validates :size, presence: true
 
   belongs_to :organization
+  belongs_to :application_form
   has_many :breeds
 end

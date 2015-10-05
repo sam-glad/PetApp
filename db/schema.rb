@@ -52,10 +52,12 @@ ActiveRecord::Schema.define(version: 20150921202844) do
   end
 
   create_table "questions", force: :cascade do |t|
-    t.string   "body",                null: false
-    t.integer  "application_form_id", null: false
-    t.datetime "created_at",          null: false
-    t.datetime "updated_at",          null: false
+    t.string   "body",                                null: false
+    t.integer  "application_form_id",                 null: false
+    t.boolean  "is_required",         default: false, null: false
+    t.integer  "input_type",                          null: false
+    t.datetime "created_at",                          null: false
+    t.datetime "updated_at",                          null: false
   end
 
   create_table "users", force: :cascade do |t|

@@ -26,6 +26,6 @@ organization2 = Organization.create(name: 'Boston Mastiff Rescue',
 user1.organizations = [organization1, organization2]
 user2.organizations = [organization2]
 
-question1 = Question.create(body: 'A question')
+question1 = Question.create(body: 'A question', input_type: 2)
 application_form = ApplicationForm.create(name:'A form!')
 application_form.questions = [question1]

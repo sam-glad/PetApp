@@ -1,6 +1,11 @@
 user1 = User.create(email: 'user1@example.com', password: 'password')
 user2 = User.create(email: 'user2@example.com', password: 'password')
 
+pet1 = Pet.create(animal: 'dog', is_mix?: 'false', age: 2, name: 'Boomer',
+  size: 'XL', sex: 'M', description: 'A bear',
+  status: 'Unavailable', good_with_dogs: true, good_with_cats: false,
+  good_with_kids: true)
+
 organization1 = Organization.create(name: 'Worcester Saint Bernard Rescue',
                                     city: 'Worcester',
                                     state_province: 'Massachusetts',
@@ -25,6 +30,7 @@ organization2 = Organization.create(name: 'Boston Mastiff Rescue',
 
 user1.organizations = [organization1, organization2]
 user2.organizations = [organization2]
+organization1.pets = [pet1]
 
 question1 = Question.create(body: 'A question', input_type: 2)
 application_form = ApplicationForm.create(name:'A form!')

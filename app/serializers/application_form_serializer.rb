@@ -1,5 +1,5 @@
 class ApplicationFormSerializer < ActiveModel::Serializer
-  attributes(*ApplicationForm.attribute_names.map(&:to_sym))
+  attributes :id, :name, :organization_id
 
   has_many :questions
 end

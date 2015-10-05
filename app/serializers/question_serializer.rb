@@ -1,5 +1,5 @@
 class QuestionSerializer < ActiveModel::Serializer
-  attributes(*Question.attribute_names.map(&:to_sym))
+  attributes :id, :body
 
   has_many :answers
 end

@@ -4,7 +4,7 @@ user2 = User.create(email: 'user2@example.com', password: 'password')
 pet1 = Pet.create(animal: 'dog', is_mix?: 'false', age: 2, name: 'Boomer',
   size: 'XL', sex: 'M', description: 'A bear',
   status: 'Unavailable', good_with_dogs: true, good_with_cats: false,
-  good_with_kids: true)
+  good_with_kids: true, breeds: [Breed.create(name: 'Saint Bernard')])
 
 organization1 = Organization.create(name: 'Worcester Saint Bernard Rescue',
                                     city: 'Worcester',

@@ -17,15 +17,15 @@ class PetsController < ApplicationController
 
   # POST /pets
   # POST /pets.json
-  def create
-    @pet = Pet.new(pet_params)
-
-    if @pet.save
-      render json: @pet, status: :created, location: @pet
-    else
-      render json: @pet.errors, status: :unprocessable_entity
-    end
-  end
+  # def create
+  #   @pet = Pet.new(pet_params)
+  #
+  #   if @pet.save
+  #     render json: @pet, status: :created, location: @pet
+  #   else
+  #     render json: @pet.errors, status: :unprocessable_entity
+  #   end
+  # end
 
   # PATCH/PUT /pets/1
   # PATCH/PUT /pets/1.json
@@ -54,6 +54,6 @@ class PetsController < ApplicationController
     end
 
     def pet_params
-      params.require(:pet).permit(:animal, :mix, :age, :name, :available_date, :size, :sex, :weight, :description, :status, :good_with_dogs, :good_with_cats, :good_with_kids, :fence_required, :fence_height, :breed_experience_required)
+      params.require(:pet).permit(:status)
     end
 end

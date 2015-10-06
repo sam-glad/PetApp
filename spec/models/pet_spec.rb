@@ -8,6 +8,7 @@ RSpec.describe Pet, :type => :model do
      it { should validate_presence_of(:age) }
      it { should validate_presence_of(:animal) }
      it { should validate_presence_of(:size) }
+     it { should validate_presence_of(:breeds) }
   end
 
   context 'Associations' do

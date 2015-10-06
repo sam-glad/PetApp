@@ -32,7 +32,7 @@ ActiveRecord::Schema.define(version: 20150922234823) do
 
   create_table "breeds", force: :cascade do |t|
     t.string  "name",   null: false
-    t.integer "pet_id", null: false
+    t.integer "pet_id"
   end
 
   create_table "organization_memberships", force: :cascade do |t|

@@ -4,6 +4,7 @@ class Pet < ActiveRecord::Base
   validates :age, presence: true
   validates :animal, presence: true
   validates :size, presence: true
+  validates :breeds, presence: true
 
   belongs_to :organization
   belongs_to :application_form

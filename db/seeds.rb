@@ -32,7 +32,7 @@ user1.organizations = [organization1, organization2]
 user2.organizations = [organization2]
 organization1.pets = [pet1]
 
-question1 = Question.create(body: 'A question', input_type: 2)
+question1 = Question.create(body: 'A question', input_type: 1)
 application_form1 = ApplicationForm.create(name:'A form!')
 application_form1.questions = [question1]
 application_form1.pets = [pet1]

@@ -11,6 +11,6 @@ FactoryGirl.define do
     good_with_dogs true
     good_with_cats false
     good_with_kids false
-    breeds [FactoryGirl.create(:breed)]
+    after(:build) { |pet| pet.breeds << FactoryGirl.create(:breed) }
   end
 end

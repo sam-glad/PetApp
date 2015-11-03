@@ -74,15 +74,17 @@ ActiveRecord::Schema.define(version: 20151007225855) do
     t.string   "size"
     t.string   "sex"
     t.string   "description"
-    t.string   "status"
     t.boolean  "good_with_dogs"
     t.boolean  "good_with_cats"
     t.boolean  "good_with_kids"
-    t.integer  "organization_id"
     t.integer  "adoption_application_id"
     t.integer  "foster_application_id"
-    t.datetime "created_at",              null: false
-    t.datetime "updated_at",              null: false
+    t.boolean  "is_fosterable",           default: false, null: false
+    t.boolean  "is_adoptable",            default: false, null: false
+    t.string   "status"
+    t.integer  "organization_id"
+    t.datetime "created_at",                              null: false
+    t.datetime "updated_at",                              null: false
   end
 
   create_table "questions", force: :cascade do |t|

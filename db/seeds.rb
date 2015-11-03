@@ -43,6 +43,7 @@ pet2 = Pet.create(animal: 'dog', is_mix?: true, age: 'Adult', name: 'Boomer',
   size: 'XL', sex: 'Male', description: 'A bear a bear a bear a bear a bear a bear a bear a bear a bear a bear a bear a bear a bear a bear a bear a bear a bear a bear',
   status: 'Unavailable', good_with_dogs: true, good_with_cats: false,
   organization_id: organization2.id, breeds: [breed1, breed2],
+  is_adoptable: true, is_fosterable: true,
   adoption_application_id: application_form1.id,
   foster_application_id: application_form1.id)
 

@@ -11,4 +11,5 @@ class Organization < ActiveRecord::Base
   has_many :users, :through => :organization_memberships
   has_many :pets
   has_many :application_forms
+  has_many :pet_applications
 end

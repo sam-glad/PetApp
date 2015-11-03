@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150922234823) do
+ActiveRecord::Schema.define(version: 20151007225855) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -56,6 +56,16 @@ ActiveRecord::Schema.define(version: 20150922234823) do
     t.boolean  "phone_preferred"
   end
 
+  create_table "pet_applications", force: :cascade do |t|
+    t.integer  "user_id"
+    t.integer  "pet_id"
+    t.integer  "organization_id"
+    t.integer  "application_type"
+    t.integer  "status",           default: 0
+    t.datetime "created_at",                   null: false
+    t.datetime "updated_at",                   null: false
+  end
+
   create_table "pets", force: :cascade do |t|
     t.string   "animal"
     t.boolean  "is_mix?"
@@ -69,16 +79,18 @@ ActiveRecord::Schema.define(version: 20150922234823) do
     t.boolean  "good_with_cats"
     t.boolean  "good_with_kids"
     t.integer  "organization_id"
-    t.integer  "application_form_id"
-    t.datetime "created_at",          null: false
-    t.datetime "updated_at",          null: false
+    t.integer  "adoption_application_id"
+    t.integer  "foster_application_id"
+    t.datetime "created_at",              null: false
+    t.datetime "updated_at",              null: false
   end
 
   create_table "questions", force: :cascade do |t|
     t.string   "body",                                null: false
-    t.integer  "application_form_id",                 null: false
+    t.integer  "application_form_id"
+    t.integer  "pet_application_id"
     t.boolean  "is_required",         default: false, null: false
-    t.integer  "input_type",                          null: false
+    t.integer  "input_type"
     t.datetime "created_at",                          null: false
     t.datetime "updated_at",                          null: false
   end

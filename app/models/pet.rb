@@ -7,6 +7,9 @@ class Pet < ActiveRecord::Base
   validates :breeds, presence: true
 
   belongs_to :organization
-  belongs_to :application_form
   has_many :breeds
+  has_many :pet_applications
+
+  belongs_to :adoption_application, class_name: 'ApplicationForm', foreign_key: 'adoption_application_id'
+  belongs_to :foster_application, class_name: 'ApplicationForm', foreign_key: 'foster_application_id'
 end

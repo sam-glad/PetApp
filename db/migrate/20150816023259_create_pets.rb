@@ -13,7 +13,8 @@ class CreatePets < ActiveRecord::Migration
       t.boolean :good_with_cats
       t.boolean :good_with_kids
       t.integer :organization_id
-      t.integer :application_form_id
+      t.integer :adoption_application_id
+      t.integer :foster_application_id
 
       t.timestamps null: false
     end

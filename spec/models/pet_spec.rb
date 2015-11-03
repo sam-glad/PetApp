@@ -14,6 +14,7 @@ RSpec.describe Pet, :type => :model do
   context 'Associations' do
     it { should belong_to(:organization) }
     it { should have_many(:breeds) }
-    it { should belong_to(:application_form) }
+    it { should belong_to(:adoption_application).class_name('ApplicationForm') }
+    it { should belong_to(:foster_application).class_name('ApplicationForm') }
   end
 end

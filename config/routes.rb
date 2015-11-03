@@ -1,4 +1,8 @@
 Rails.application.routes.draw do
+  resources :pet_applications, except: [:index, :new, :edit]
+  resources :organizations do
+    resources :pet_applications, only: [:index, :show]
+  end
   resources :application_forms, except: [:new, :edit]
   resources :organizations, except: [:new, :edit]
   resources :organization_memberships, except: [:new, :edit]

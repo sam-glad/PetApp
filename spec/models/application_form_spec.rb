@@ -11,7 +11,6 @@ RSpec.describe ApplicationForm, :type => :model do
   context 'Associations' do
     it { should belong_to(:organization) }
     it { should have_many(:questions).dependent(:destroy) }
-    it { should have_many(:pets) }
     it { should accept_nested_attributes_for(:questions) }
   end
 end

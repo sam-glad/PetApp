@@ -4,7 +4,7 @@ class ApplicationFormsController < ApplicationController
   # GET /application_forms
   # GET /application_forms.json
   def index
-    @application_forms = ApplicationForm.all
+    @application_forms = ApplicationForm.where(organization_id: params['organization_id'])
 
     render json: @application_forms
   end

@@ -3,8 +3,8 @@ require "rails_helper"
 RSpec.describe ApplicationFormsController, :type => :routing do
   describe "routing" do
 
-    it "routes to #index" do
-      expect(:get => "/application_forms").to route_to("application_forms#index")
+    it 'routes to #index' do
+      expect(get: '/organizations/1/application_forms').to route_to('application_forms#index', organization_id: '1')
     end
 
     it "routes to #show" do

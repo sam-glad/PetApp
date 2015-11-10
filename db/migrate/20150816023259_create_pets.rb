@@ -11,14 +11,14 @@ class CreatePets < ActiveRecord::Migration
       t.boolean :good_with_dogs
       t.boolean :good_with_cats
       t.boolean :good_with_kids
-      t.integer :adoption_application_id
-      t.integer :foster_application_id
 
       # Non-Petfinder columns
       t.boolean :is_fosterable, null: false, default: false
       t.boolean :is_adoptable, null: false, default: false
-      t.string :status
+      t.integer :status
       t.integer :organization_id
+      t.integer :adoption_application_id
+      t.integer :foster_application_id
 
       t.timestamps null: false
     end

@@ -7,7 +7,7 @@ FactoryGirl.define do
     size 'XL'
     sex 'M'
     description 'A description'
-    status 'Adoptable'
+    status 0
     good_with_dogs true
     good_with_cats false
     good_with_kids false

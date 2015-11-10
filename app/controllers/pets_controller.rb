@@ -15,18 +15,6 @@ class PetsController < ApplicationController
     render json: @pet
   end
 
-  # POST /pets
-  # POST /pets.json
-  # def create
-  #   @pet = Pet.new(pet_params)
-  #
-  #   if @pet.save
-  #     render json: @pet, status: :created, location: @pet
-  #   else
-  #     render json: @pet.errors, status: :unprocessable_entity
-  #   end
-  # end
-
   # PATCH/PUT /pets/1
   # PATCH/PUT /pets/1.json
   def update
@@ -54,6 +42,7 @@ class PetsController < ApplicationController
     end
 
     def pet_params
-      params.require(:pet).permit(:status)
+      params.require(:pet).permit(:is_fosterable, :is_adoptable,
+        :foster_application_id, :adoption_application_id, :status)
     end
 end

@@ -8,7 +8,7 @@ RSpec.describe PetApplicationsController, type: :routing do
     end
 
     it 'routes to #show' do
-      expect(get: '/organizations/1/pet_applications/1').to route_to('pet_applications#show', organization_id: '1', id: '1')
+      expect(get: '/pet_applications/1').to route_to('pet_applications#show', id: '1')
     end
 
     it 'routes to #create' do

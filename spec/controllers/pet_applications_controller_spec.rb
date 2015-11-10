@@ -56,7 +56,7 @@ RSpec.describe PetApplicationsController, type: :controller do
   describe "GET #index" do
     it "assigns an organization's pet_applications as @pet_applications" do
       pet_application = PetApplication.create! valid_attributes
-      get :index, {organization_id: 11}
+      get :index, {organization_id: pet_application.pet.organization_id}
       expect(assigns(:pet_applications)).to eq([pet_application])
     end
   end

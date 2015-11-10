@@ -33,24 +33,24 @@ user2.organizations = [organization2]
 organization1.pets = [pet1]
 
 question1 = Question.create(body: 'A question', input_type: 1)
-application_form1 = ApplicationForm.create(name:'A form!')
+application_form1 = ApplicationForm.create(name:'A form!', organization: organization2)
 application_form1.questions = [question1]
+
+question2 = Question.create(body: 'Question 1', input_type: 0)
+question3 = Question.create(body: 'Question 2', input_type: 1)
+application_form2 = ApplicationForm.create(name:'Adopt this bear', organization: organization2)
+application_form2.questions = [question2, question3]
 
 breed1 = Breed.create(name: 'Rottweiler')
 breed2 = Breed.create(name: 'Potato')
 
 pet2 = Pet.create(animal: 'dog', is_mix?: true, age: 'Adult', name: 'Boomer',
   size: 'XL', sex: 'Male', description: 'A bear a bear a bear a bear a bear a bear a bear a bear a bear a bear a bear a bear a bear a bear a bear a bear a bear a bear',
-  status: 'Unavailable', good_with_dogs: true, good_with_cats: false,
+  status: 0, good_with_dogs: true, good_with_cats: false,
   organization_id: organization2.id, breeds: [breed1, breed2],
   is_adoptable: true, is_fosterable: true,
   adoption_application_id: application_form1.id,
-  foster_application_id: application_form1.id)
-
-question2 = Question.create(body: 'Question 1', input_type: 1)
-question3 = Question.create(body: 'Question 2', input_type: 2)
-application_form2 = ApplicationForm.create(name:'Adopt this bear')
-application_form2.questions = [question2, question3]
+  foster_application_id: application_form2.id)
 
 answer1 = Answer.new(body: 'An answer', question_id: question1.id)
 question1.answers = [answer1]

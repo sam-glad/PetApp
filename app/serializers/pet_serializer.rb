@@ -4,4 +4,5 @@ class PetSerializer < ActiveModel::Serializer
   :adoption_application_id, :foster_application_id, :is_adoptable, :is_fosterable
 
   has_many :breeds
+  has_one :organization
 end

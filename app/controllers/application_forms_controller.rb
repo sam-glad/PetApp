@@ -31,6 +31,7 @@ class ApplicationFormsController < ApplicationController
   # PATCH/PUT /application_forms/1.json
   def update
     @application_form = ApplicationForm.find(params[:id])
+    @application_form.questions = [] # HACK: Prevents questions from being duplicated on every update
 
     if @application_form.update(application_form_params)
       head :no_content

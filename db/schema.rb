@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151007225855) do
+ActiveRecord::Schema.define(version: 20151201200733) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -79,7 +79,7 @@ ActiveRecord::Schema.define(version: 20151007225855) do
     t.boolean  "good_with_kids"
     t.boolean  "is_fosterable",           default: false, null: false
     t.boolean  "is_adoptable",            default: false, null: false
-    t.string   "status"
+    t.integer  "status"
     t.integer  "organization_id"
     t.integer  "adoption_application_id"
     t.integer  "foster_application_id"
@@ -95,6 +95,7 @@ ActiveRecord::Schema.define(version: 20151007225855) do
     t.integer  "input_type"
     t.datetime "created_at",                          null: false
     t.datetime "updated_at",                          null: false
+    t.integer  "position"
   end
 
   create_table "users", force: :cascade do |t|

@@ -14,17 +14,17 @@ RSpec.describe PetsController, :type => :controller do
       size: 'XL',
       sex: 'M',
       description: 'A description',
-      status: 'Adoptable',
       good_with_dogs: true,
       good_with_cats: false,
       good_with_kids: false,
-      breeds: [FactoryGirl.create(:breed)]
+      breeds: [FactoryGirl.create(:breed)],
+      foster_application_id: ApplicationForm.create.id
     }
   }
 
   let(:invalid_attributes) {
     {
-      status: nil
+      foster_application_id: ApplicationForm.create.id
     }
   }
 
@@ -76,7 +76,7 @@ RSpec.describe PetsController, :type => :controller do
     describe "with valid params" do
       let(:new_attributes) {
         {
-          status: 'Adopted'
+          foster_application_id: ApplicationForm.create.id
         }
       }
 

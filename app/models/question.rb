@@ -1,4 +1,6 @@
 class Question < ActiveRecord::Base
+  default_scope { order('position ASC') }
+
   validates :body, presence: true, allow_blank: false
 
   # enum input_type: [ :textbox_small, :textbox_large, :dropdown, :radio, :checkbox ]

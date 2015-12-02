@@ -5,6 +5,7 @@ RSpec.describe Question, :type => :model do
     it { should validate_presence_of(:body) }
     it { should_not allow_value(' ').for(:body) }
     it { should have_many(:answers) }
+    it { should validate_numericality_of(:position).is_greater_than(0) }
   end
 
   context 'Associations' do

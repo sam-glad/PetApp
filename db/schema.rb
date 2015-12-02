@@ -95,7 +95,7 @@ ActiveRecord::Schema.define(version: 20151201200733) do
     t.integer  "input_type"
     t.datetime "created_at",                          null: false
     t.datetime "updated_at",                          null: false
-    t.integer  "position"
+    t.integer  "position",            default: 1
   end
 
   create_table "users", force: :cascade do |t|

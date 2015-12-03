@@ -31,7 +31,6 @@ class ApplicationFormsController < ApplicationController
   # PATCH/PUT /application_forms/1.json
   def update
     @application_form = ApplicationForm.find(params[:id])
-    @application_form.questions = [] # HACK: Prevents questions from being duplicated on every update
 
     if @application_form.update(application_form_params)
       head :no_content
@@ -56,6 +55,7 @@ class ApplicationFormsController < ApplicationController
 
     def application_form_params
       params.require(:application_form).permit(:name, questions_attributes:
-        [:body, :input_type, :is_required, :position, answers_attributes: [:body] ])
+        [:id, :body, :input_type, :is_required, :position, :_destroy,
+        answers_attributes: [:id, :body, :_destroy] ])
     end
 end

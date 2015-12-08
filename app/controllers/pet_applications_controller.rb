@@ -57,7 +57,7 @@ class PetApplicationsController < ApplicationController
     end
 
     def pet_application_params
-      params.require(:pet_application).permit(:pet_id, :application_type, :pet_id,
-        :organization_id, questions_attributes: [:body, answers_attributes: [:body] ])
+      params.require(:pet_application).permit(:pet_id, :application_type,
+        questions_attributes: [:body, answers_attributes: [:body] ])
     end
 end

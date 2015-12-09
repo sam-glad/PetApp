@@ -18,7 +18,7 @@ class PetApplicationsController < ApplicationController
   # POST /pet_applications
   # POST /pet_applications.json
   def create
-    @pet_application = PetApplication.new(pet_application_params)
+    @pet_application = PetApplication.new(pet_application_create_params)
     @pet_application.status = 0 # TODO: Replace with enum
     @pet_application.user_id = current_user.id
     @pet_application.organization_id = @pet_application.pet.organization_id
@@ -33,9 +33,10 @@ class PetApplicationsController < ApplicationController
   # PATCH/PUT /pet_applications/1
   # PATCH/PUT /pet_applications/1.json
   def update
+    # TODO: Ensure current_user is a group admin
     @pet_application = PetApplication.find(params[:id])
 
-    if @pet_application.update(pet_application_params)
+    if @pet_application.update(pet_application_edit_params)
       head :no_content
     else
       render json: @pet_application.errors, status: :unprocessable_entity
@@ -56,8 +57,12 @@ class PetApplicationsController < ApplicationController
       @pet_application = PetApplication.find(params[:id])
     end
 
-    def pet_application_params
+    def pet_application_create_params
       params.require(:pet_application).permit(:pet_id, :application_type,
         questions_attributes: [:body, answers_attributes: [:body] ])
+    end
+
+    def pet_application_edit_params
+      params.require(:pet_application).permit(:status)
     end
 end

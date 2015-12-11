@@ -34,7 +34,7 @@ RSpec.describe PetApplicationsController, type: :controller do
 
   def new_attributes
     attributes = {
-      application_type: 1 # TODO: Replace this with working enum
+      status: 2 # TODO: Replace this with working enum
     }
   end
 

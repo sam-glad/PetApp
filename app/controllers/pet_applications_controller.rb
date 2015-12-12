@@ -1,4 +1,5 @@
 class PetApplicationsController < ApplicationController
+  before_action :authenticate_user!
   before_action :set_pet_application, only: [:show, :update, :destroy]
 
   # GET organizations/1/pet_applications
@@ -12,7 +13,11 @@ class PetApplicationsController < ApplicationController
   # GET /pet_applications/1
   # GET /pet_applications/1.json
   def show
-    render json: @pet_application
+    binding.pry
+    if (current_user.can_view(@pet_application))
+      render json: @pet_application
+    end
+    status :unauthorized
   end
 
   # POST /pet_applications

@@ -7,17 +7,21 @@ class PetApplicationsController < ApplicationController
   def index
     @pet_applications = PetApplication.where(organization_id: params['organization_id'])
 
-    render json: @pet_applications
+    if (current_user.can_view_all_applications(params['organization_id']))
+      render json: @pet_application
+    else
+      render json: {'errors':['Insufficient permissions']}, status: 401
+    end
   end
 
   # GET /pet_applications/1
   # GET /pet_applications/1.json
   def show
-    binding.pry
     if (current_user.can_view(@pet_application))
       render json: @pet_application
+    else
+      render json: {'errors':['Insufficient permissions']}, status: 401
     end
-    status :unauthorized
   end
 
   # POST /pet_applications
@@ -38,22 +42,26 @@ class PetApplicationsController < ApplicationController
   # PATCH/PUT /pet_applications/1
   # PATCH/PUT /pet_applications/1.json
   def update
-    # TODO: Ensure current_user is a group admin
-    @pet_application = PetApplication.find(params[:id])
-
-    if @pet_application.update(pet_application_edit_params)
-      head :no_content
+    if (current_user.can_edit(@pet_application))
+      if @pet_application.update(pet_application_edit_params)
+        head :no_content
+      else
+        render json: @pet_application.errors, status: :unprocessable_entity
+      end
     else
-      render json: @pet_application.errors, status: :unprocessable_entity
+      render json: {'errors':['Insufficient permissions']}, status: 401
     end
   end
 
   # DELETE /pet_applications/1
   # DELETE /pet_applications/1.json
   def destroy
-    @pet_application.destroy
-
-    head :no_content
+    if (current_user.can_delete(@pet_application))
+      @pet_application.destroy
+      head :no_content
+    else
+      render json: {'errors':['Insufficient permissions']}, status: 401
+    end
   end
 
   private

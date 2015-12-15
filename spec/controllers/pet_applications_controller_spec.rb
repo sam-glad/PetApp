@@ -39,10 +39,6 @@ RSpec.describe PetApplicationsController, type: :controller do
   end
 
   before(:each) do
-    sign_in_user_with_no_permissions
-  end
-
-  def sign_in_user_with_no_permissions
     @request.env["devise.mapping"] = Devise.mappings[:user]
     user1 = FactoryGirl.create(:user)
     sign_in user1

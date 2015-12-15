@@ -1,5 +1,4 @@
 class PetApplicationsController < ApplicationController
-  before_action :authenticate_user!
   before_action :set_pet_application, only: [:show, :update, :destroy]
 
   # GET organizations/1/pet_applications
@@ -7,21 +6,13 @@ class PetApplicationsController < ApplicationController
   def index
     @pet_applications = PetApplication.where(organization_id: params['organization_id'])
 
-    if (current_user.can_view_all_applications(params['organization_id']))
-      render json: @pet_application
-    else
-      render json: {'errors':['Insufficient permissions']}, status: 401
-    end
+    render json: @pet_applications
   end
 
   # GET /pet_applications/1
   # GET /pet_applications/1.json
   def show
-    if (current_user.can_view(@pet_application))
-      render json: @pet_application
-    else
-      render json: {'errors':['Insufficient permissions']}, status: 401
-    end
+    render json: @pet_application
   end
 
   # POST /pet_applications
@@ -42,26 +33,22 @@ class PetApplicationsController < ApplicationController
   # PATCH/PUT /pet_applications/1
   # PATCH/PUT /pet_applications/1.json
   def update
-    if (current_user.can_edit(@pet_application))
-      if @pet_application.update(pet_application_edit_params)
-        head :no_content
-      else
-        render json: @pet_application.errors, status: :unprocessable_entity
-      end
+    # TODO: Ensure current_user is a group admin
+    @pet_application = PetApplication.find(params[:id])
+
+    if @pet_application.update(pet_application_edit_params)
+      head :no_content
     else
-      render json: {'errors':['Insufficient permissions']}, status: 401
+      render json: @pet_application.errors, status: :unprocessable_entity
     end
   end
 
   # DELETE /pet_applications/1
   # DELETE /pet_applications/1.json
   def destroy
-    if (current_user.can_delete(@pet_application))
-      @pet_application.destroy
-      head :no_content
-    else
-      render json: {'errors':['Insufficient permissions']}, status: 401
-    end
+    @pet_application.destroy
+
+    head :no_content
   end
 
   private

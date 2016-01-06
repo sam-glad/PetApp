@@ -9,7 +9,6 @@ gem 'omniauth'
 gem 'factory_girl_rails'
 gem 'active_model_serializers', '~> 0.8.3'
 gem 'rack-cors', :require => 'rack/cors'
-gem 'cancancan', '~> 1.10'
 
 group :development, :test do
   gem 'rspec-rails', '~> 3.1'

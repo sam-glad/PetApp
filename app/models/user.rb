@@ -7,26 +7,26 @@ class User < ActiveRecord::Base
           :recoverable, :rememberable, :trackable, :validatable, :omniauthable
   include DeviseTokenAuth::Concerns::User
 
-  def can_view_all_pet_applications(organization_id)
+  def can_view_all_pet_applications?(organization_id)
     organization_membership = find_organization_membership(organization_id)
     return !organization_membership.nil? ? organization_membership.can_view_all_applications : false
   end
 
-  def can_view(pet_application)
+  def can_view?(pet_application)
     organization_membership = find_organization_membership(pet_application.organization_id)
     return !organization_membership.nil? ?
       organization_membership.can_view_all_applications :
       self.id == pet_application.user_id
   end
 
-  def can_edit(pet_application)
+  def can_edit?(pet_application)
     organization_membership = find_organization_membership(pet_application.organization_id)
     return !organization_membership.nil? ?
       organization_membership.can_edit_all_applications :
       self.id == pet_application.user_id
   end
 
-  def can_delete(pet_application)
+  def can_delete?(pet_application)
     organization_membership = find_organization_membership(pet_application.organization_id)
     return !organization_membership.nil? ?
       organization_membership.can_delete_all_applications :

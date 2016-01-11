@@ -36,6 +36,8 @@ class PetApplicationsController < ApplicationController
     # TODO: Ensure current_user is a group admin
     @pet_application = PetApplication.find(params[:id])
 
+    authorize @pet_application
+
     if @pet_application.update(pet_application_edit_params)
       head :no_content
     else

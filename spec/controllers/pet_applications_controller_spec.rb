@@ -38,13 +38,6 @@ RSpec.describe PetApplicationsController, type: :controller do
     }
   end
 
-  # before(:each) do
-  #   @request.env["devise.mapping"] = Devise.mappings[:user]
-  #   user1 = FactoryGirl.create(:user)
-  #   sign_in user1
-  #   pet = FactoryGirl.create(:pet)
-  # end
-
   def login(user)
     @request.env["devise.mapping"] = Devise.mappings[:user]
     sign_in user
@@ -52,10 +45,6 @@ RSpec.describe PetApplicationsController, type: :controller do
 
   def valid_session
     {"warden.user.user.key" => session["warden.user.user.key"]}
-  end
-
-  it "should have a current_user" do
-    subject.current_user.should_not be_nil
   end
 
   let(:user) { FactoryGirl.create(:user) }
@@ -141,10 +130,17 @@ RSpec.describe PetApplicationsController, type: :controller do
     end
 
     context 'with an unauthorized user' do
-      it 'fails to update the requested pet_application' do
+      it 'returns 403 Forbidden' do
         pet_application = PetApplication.create! valid_attributes
         put :update, {:id => pet_application.to_param, :pet_application => new_attributes}
         expect(response).to have_http_status(403)
+      end
+
+      it 'fails to update the requested pet_application' do
+        pet_application = PetApplication.create! valid_attributes
+        put :update, {:id => pet_application.to_param, :pet_application => new_attributes}
+        pet_application_after_update = pet_application.reload
+        expect(pet_application_after_update).to eq(pet_application)
       end
     end
   end

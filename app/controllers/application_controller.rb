@@ -6,4 +6,12 @@ class ApplicationController < ActionController::API
   def default_serializer_options
     { root: false }
   end
+
+  rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized
+
+  private
+
+  def user_not_authorized
+    head 403
+  end
 end

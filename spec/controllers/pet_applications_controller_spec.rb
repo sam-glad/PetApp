@@ -2,8 +2,8 @@ require 'rails_helper'
 
 RSpec.describe PetApplicationsController, type: :controller do
 
-  def valid_attributes
-    user = FactoryGirl.create(:user)
+  def valid_attributes(user = nil)
+    user ||= FactoryGirl.create(:user)
     pet = FactoryGirl.create(:pet)
 
     attributes = {
@@ -38,11 +38,16 @@ RSpec.describe PetApplicationsController, type: :controller do
     }
   end
 
-  before(:each) do
+  # before(:each) do
+  #   @request.env["devise.mapping"] = Devise.mappings[:user]
+  #   user1 = FactoryGirl.create(:user)
+  #   sign_in user1
+  #   pet = FactoryGirl.create(:pet)
+  # end
+
+  def login(user)
     @request.env["devise.mapping"] = Devise.mappings[:user]
-    user1 = FactoryGirl.create(:user)
-    sign_in user1
-    pet = FactoryGirl.create(:pet)
+    sign_in user
   end
 
   def valid_session
@@ -51,6 +56,13 @@ RSpec.describe PetApplicationsController, type: :controller do
 
   it "should have a current_user" do
     subject.current_user.should_not be_nil
+  end
+
+  let(:user) { FactoryGirl.create(:user) }
+
+  before(:each) do
+    @request.env["devise.mapping"] = Devise.mappings[:user]
+    sign_in user
   end
 
   describe "GET #index" do
@@ -93,28 +105,38 @@ RSpec.describe PetApplicationsController, type: :controller do
   end
 
   describe "PUT #update" do
-    context "with valid params" do
-      it "updates the requested pet_application" do
-        pet_application = PetApplication.create! valid_attributes
-        put :update, {:id => pet_application.to_param, :pet_application => new_attributes}
-        pet_application.reload
-        new_attributes.each_pair do |key, value|
-          expect(pet_application[key]).to eq(value)
+    context 'with an authorized user' do
+      context "with valid params" do
+        it "updates the requested pet_application" do
+          pet_application = PetApplication.create! valid_attributes(user)
+          put :update, {:id => pet_application.to_param, :pet_application => new_attributes}
+          pet_application.reload
+          new_attributes.each_pair do |key, value|
+            expect(pet_application[key]).to eq(value)
+          end
+        end
+
+        it "assigns the requested pet_application as @pet_application" do
+          pet_application = PetApplication.create! valid_attributes(user)
+          put :update, {:id => pet_application.to_param, :pet_application => valid_attributes}
+          expect(assigns(:pet_application)).to eq(pet_application)
         end
       end
 
-      it "assigns the requested pet_application as @pet_application" do
-        pet_application = PetApplication.create! valid_attributes
-        put :update, {:id => pet_application.to_param, :pet_application => valid_attributes}
-        expect(assigns(:pet_application)).to eq(pet_application)
+      context "with invalid params" do
+        it "assigns the pet_application as @pet_application" do
+          pet_application = PetApplication.create! valid_attributes(user)
+          put :update, {:id => pet_application.to_param, :pet_application => invalid_attributes}
+          expect(assigns(:pet_application)).to eq(pet_application)
+        end
       end
     end
 
-    context "with invalid params" do
-      it "assigns the pet_application as @pet_application" do
+    context 'with an unauthorized user' do
+      it 'fails to update the requested pet_application' do
         pet_application = PetApplication.create! valid_attributes
-        put :update, {:id => pet_application.to_param, :pet_application => invalid_attributes}
-        expect(assigns(:pet_application)).to eq(pet_application)
+        put :update, {:id => pet_application.to_param, :pet_application => new_attributes}
+        expect(response).to have_http_status(403)
       end
     end
   end

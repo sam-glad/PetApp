@@ -33,7 +33,6 @@ class PetApplicationsController < ApplicationController
   # PATCH/PUT /pet_applications/1
   # PATCH/PUT /pet_applications/1.json
   def update
-    # TODO: Ensure current_user is a group admin
     @pet_application = PetApplication.find(params[:id])
 
     authorize @pet_application

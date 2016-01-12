@@ -79,6 +79,14 @@ RSpec.describe PetApplicationsController, type: :controller do
       get :show, {:id => pet_application.to_param}
       expect(assigns(:pet_application)).to eq(pet_application)
     end
+
+    context 'with an unauthorized user' do
+      it 'fails to show the requested pet_application' do
+        pet_application = PetApplication.create! valid_attributes
+        get :show, {:id => pet_application.to_param}
+        expect(response).to have_http_status(403)
+      end
+    end
   end
 
   describe "POST #create" do

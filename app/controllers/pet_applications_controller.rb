@@ -12,6 +12,7 @@ class PetApplicationsController < ApplicationController
   # GET /pet_applications/1
   # GET /pet_applications/1.json
   def show
+    authorize @pet_application
     render json: @pet_application
   end
 
@@ -34,7 +35,6 @@ class PetApplicationsController < ApplicationController
   # PATCH/PUT /pet_applications/1.json
   def update
     @pet_application = PetApplication.find(params[:id])
-
     authorize @pet_application
 
     if @pet_application.update(pet_application_edit_params)

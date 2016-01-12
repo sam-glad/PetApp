@@ -6,15 +6,15 @@ class PetApplicationPolicy < ApplicationPolicy
     @pet_application = pet_application
   end
 
-  def show
+  def show?
     return user.can_view?(pet_application)
   end
 
-  def update
+  def update?
     return user.can_edit?(pet_application)
   end
 
-  def delete
+  def delete?
     return user.can_delete?(pet_application)
   end
 end

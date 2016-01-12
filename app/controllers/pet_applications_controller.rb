@@ -47,6 +47,7 @@ class PetApplicationsController < ApplicationController
   # DELETE /pet_applications/1
   # DELETE /pet_applications/1.json
   def destroy
+    authorize @pet_application
     @pet_application.destroy
 
     head :no_content

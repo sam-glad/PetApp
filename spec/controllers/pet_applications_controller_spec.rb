@@ -150,11 +150,28 @@ RSpec.describe PetApplicationsController, type: :controller do
   end
 
   describe "DELETE #destroy" do
-    it "destroys the requested pet_application" do
-      pet_application = PetApplication.create! valid_attributes
-      expect {
+    context 'with an authorized user' do
+      it "destroys the requested pet_application" do
+        pet_application = PetApplication.create! valid_attributes(user)
+        expect {
+          delete :destroy, {:id => pet_application.to_param}
+        }.to change(PetApplication, :count).by(-1)
+      end
+    end
+
+    context 'with an unauthorized user' do
+      it 'returns 403 Forbidden' do
+        pet_application = PetApplication.create! valid_attributes
         delete :destroy, {:id => pet_application.to_param}
-      }.to change(PetApplication, :count).by(-1)
+        expect(response).to have_http_status(403)
+      end
+
+      it 'fails to destroy the requested pet_application' do
+        pet_application = PetApplication.create! valid_attributes
+        expect {
+          delete :destroy, {:id => pet_application.to_param}
+        }.to change(PetApplication, :count).by(0)
+      end
     end
   end
 end

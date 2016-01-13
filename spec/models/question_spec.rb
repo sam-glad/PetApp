@@ -19,7 +19,7 @@ RSpec.describe Question, :type => :model do
     let!(:question_two) { Question.create(body: 'Bar?', position: 1) }
 
     it 'orders by ascending position' do
-      Question.all.should eq [question_two, question_one]
+      expect(Question.all).to eq([question_two, question_one])
     end
   end
 end

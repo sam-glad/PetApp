@@ -43,6 +43,7 @@ ActiveRecord::Schema.define(version: 20151211201640) do
     t.boolean  "can_view_all_applications",   default: false
     t.boolean  "can_edit_all_applications",   default: false
     t.boolean  "can_delete_all_applications", default: false
+    t.boolean  "can_edit_all_pets",           default: false
   end
 
   create_table "organizations", force: :cascade do |t|

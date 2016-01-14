@@ -7,6 +7,8 @@ class User < ActiveRecord::Base
           :recoverable, :rememberable, :trackable, :validatable, :omniauthable
   include DeviseTokenAuth::Concerns::User
 
+  ###### Methods concerning permissions ######
+
   def can_view_all_pet_applications?(organization_id)
     organization_membership = find_organization_membership(organization_id)
     return !organization_membership.nil? ? organization_membership.can_view_all_applications : false
@@ -19,11 +21,22 @@ class User < ActiveRecord::Base
       self.id == pet_application.user_id
   end
 
-  def can_edit?(pet_application)
-    organization_membership = find_organization_membership(pet_application.organization_id)
-    return !organization_membership.nil? ?
-      organization_membership.can_edit_all_applications :
-      self.id == pet_application.user_id
+  # This is already getting way too busy
+  # TODO: Separate class-specific logic (conditions) into individual methods
+  def can_edit?(model)
+    organization_membership = find_organization_membership(model.organization_id)
+    case model
+      when PetApplication
+        pet_application = model
+        return !organization_membership.nil? ?
+          organization_membership.can_edit_all_applications :
+          self.id == pet_application.user_id
+      when Pet
+        pet = model
+        return (!organization_membership.nil? && organization_membership.can_edit_all_pets)
+      else
+        raise ArgumentError.new('Wrong type passed - only PetApplications and Pets allowed')
+    end
   end
 
   def can_delete?(pet_application)

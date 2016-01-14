@@ -19,6 +19,7 @@ class PetsController < ApplicationController
   # PATCH/PUT /pets/1.json
   def update
     @pet = Pet.find(params[:id])
+    authorize @pet
 
     if @pet.update(pet_params)
       head :no_content

@@ -12,7 +12,7 @@ RSpec.describe PetsController, :type => :routing do
     end
 
     it "routes to #create" do
-      expect(:post => "/pets").to route_to("pets#create")
+      expect(:post => "/pets").not_to be_routable
     end
 
     it "routes to #update" do
@@ -20,7 +20,7 @@ RSpec.describe PetsController, :type => :routing do
     end
 
     it "routes to #destroy" do
-      expect(:delete => "/pets/1").to route_to("pets#destroy", :id => "1")
+      expect(:delete => "/pets/1").not_to be_routable
     end
 
   end

@@ -110,14 +110,4 @@ RSpec.describe PetsController, :type => :controller do
       end
     end
   end
-
-  describe "DELETE destroy" do
-    it "destroys the requested pet" do
-      pet = Pet.create! valid_attributes
-      expect {
-        delete :destroy, {:id => pet.to_param}
-      }.to change(Pet, :count).by(-1)
-    end
-  end
-
 end

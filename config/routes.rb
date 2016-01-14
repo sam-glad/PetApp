@@ -7,7 +7,7 @@ Rails.application.routes.draw do
   resources :application_forms, except: [:index, :new, :edit]
   resources :organizations, except: [:new, :edit]
   resources :organization_memberships, except: [:new, :edit]
-  resources :pets, except: [:new, :edit]
+  resources :pets, except: [:create, :new, :edit, :destroy]
   resources :application_forms, except: [:new, :edit]
   mount_devise_token_auth_for 'User', at: 'auth'
   # The priority is based upon order of creation: first created -> highest priority.

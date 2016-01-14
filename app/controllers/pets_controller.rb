@@ -28,14 +28,6 @@ class PetsController < ApplicationController
     end
   end
 
-  # DELETE /pets/1
-  # DELETE /pets/1.json
-  def destroy
-    @pet.destroy
-
-    head :no_content
-  end
-
   private
 
     def set_pet

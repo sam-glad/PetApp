@@ -32,7 +32,6 @@ class User < ActiveRecord::Base
           organization_membership.can_edit_all_applications :
           self.id == pet_application.user_id
       when Pet
-        pet = model
         return (!organization_membership.nil? && organization_membership.can_edit_all_pets)
       else
         raise ArgumentError.new('Wrong type passed - only PetApplications and Pets allowed')

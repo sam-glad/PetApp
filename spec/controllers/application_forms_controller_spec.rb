@@ -2,12 +2,13 @@ require 'rails_helper'
 
 RSpec.describe ApplicationFormsController, :type => :controller do
 
-  def valid_attributes(user = nil, user_can_view_all_application_forms = false)
+  def valid_attributes(user = nil)
     organization = FactoryGirl.create(:organization)
-    user ||= FactoryGirl.create(:user)
-    if user_can_view_all_application_forms
-      OrganizationMembership.create(user_id: user.id,
-        organization_id: organization.id, can_view_all_application_forms: true)
+    if user
+      OrganizationMembership.create(user_id: user.id, organization_id: organization.id,
+        can_manage_application_forms: true)
+    else
+      user = FactoryGirl.create(:user)
     end
 
     return { name: 'My First Application Form',
@@ -34,12 +35,12 @@ RSpec.describe ApplicationFormsController, :type => :controller do
   describe 'GET index' do
     context 'with an authorized user' do
       it 'assigns an organization\'s application_forms as @application_forms' do
-        application_form = ApplicationForm.create! valid_attributes(user, true)
+        application_form = ApplicationForm.create! valid_attributes(user)
         get :index, {organization_id: application_form.id}
         expect(assigns(:application_forms)).to eq([application_form])
       end
       it 'returns 200' do
-        application_form = ApplicationForm.create! valid_attributes(user, true)
+        application_form = ApplicationForm.create! valid_attributes(user)
         get :index, {organization_id: application_form.id}
         expect(response).to have_http_status(200)
       end
@@ -56,12 +57,12 @@ RSpec.describe ApplicationFormsController, :type => :controller do
   describe "GET show" do
     context 'with an authorized user' do
       it 'assigns the requested application_form as @application_form' do
-        application_form = ApplicationForm.create! valid_attributes(user, true)
+        application_form = ApplicationForm.create! valid_attributes(user)
         get :show, {:id => application_form.to_param}
         expect(assigns(:application_form)).to eq(application_form)
       end
       it 'returns 200' do
-        application_form = ApplicationForm.create! valid_attributes(user, true)
+        application_form = ApplicationForm.create! valid_attributes(user)
         get :show, {:id => application_form.to_param}
         expect(response).to have_http_status(200)
       end

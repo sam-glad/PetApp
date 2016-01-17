@@ -2,30 +2,76 @@ require 'rails_helper'
 
 RSpec.describe ApplicationFormsController, :type => :controller do
 
-  def valid_attributes
+  def valid_attributes(user = nil, user_can_view_all_application_forms = false)
     organization = FactoryGirl.create(:organization)
+    user ||= FactoryGirl.create(:user)
+    if user_can_view_all_application_forms
+      OrganizationMembership.create(user_id: user.id,
+        organization_id: organization.id, can_view_all_application_forms: true)
+    end
+
     return { name: 'My First Application Form',
              organization: organization
            }
   end
 
-  let(:invalid_attributes) {
-      { name: nil }
-    }
+  def invalid_attributes
+    return { name: nil }
+  end
 
-  describe "GET index" do
-    it "assigns an organization's application_forms as @application_forms" do
-      application_form = ApplicationForm.create! valid_attributes
-      get :index, {organization_id: application_form.id}
-      expect(assigns(:application_forms)).to eq([application_form])
+  # TODO: Move this somewhere for common access
+  def login(user)
+    @request.env['devise.mapping'] = Devise.mappings[:user]
+    sign_in(user)
+  end
+
+  let(:user) { FactoryGirl.create(:user) }
+
+  before(:each) do
+    login(user)
+  end
+
+  describe 'GET index' do
+    context 'with an authorized user' do
+      it 'assigns an organization\'s application_forms as @application_forms' do
+        application_form = ApplicationForm.create! valid_attributes(user, true)
+        get :index, {organization_id: application_form.id}
+        expect(assigns(:application_forms)).to eq([application_form])
+      end
+      it 'returns 200' do
+        application_form = ApplicationForm.create! valid_attributes(user, true)
+        get :index, {organization_id: application_form.id}
+        expect(response).to have_http_status(200)
+      end
+    end
+    context 'with an unauthorized user' do
+      it 'returns 403' do
+        application_form = ApplicationForm.create! valid_attributes
+        get :index, {organization_id: application_form.id}
+        expect(response).to have_http_status(403)
+      end
     end
   end
 
   describe "GET show" do
-    it "assigns the requested application_form as @application_form" do
-      application_form = ApplicationForm.create! valid_attributes
-      get :show, {:id => application_form.to_param}
-      expect(assigns(:application_form)).to eq(application_form)
+    context 'with an authorized user' do
+      it 'assigns the requested application_form as @application_form' do
+        application_form = ApplicationForm.create! valid_attributes(user, true)
+        get :show, {:id => application_form.to_param}
+        expect(assigns(:application_form)).to eq(application_form)
+      end
+      it 'returns 200' do
+        application_form = ApplicationForm.create! valid_attributes(user, true)
+        get :show, {:id => application_form.to_param}
+        expect(response).to have_http_status(200)
+      end
+    end
+    context 'with an unauthorized user' do
+      it 'returns 403' do
+        application_form = ApplicationForm.create! valid_attributes
+        get :show, {:id => application_form.to_param}
+        expect(response).to have_http_status(403)
+      end
     end
   end
 

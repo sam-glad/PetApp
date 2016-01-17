@@ -12,13 +12,13 @@ gem 'rack-cors', :require => 'rack/cors'
 gem 'pundit'
 
 group :development, :test do
-  gem 'rspec-rails', '~> 3.1'
+  gem 'rspec-rails'
   gem 'pry'
   gem 'railroady'
 end
 
 group :test do
-  gem 'shoulda-matchers'
+  gem 'shoulda-matchers', '~> 3.0'
   gem 'simplecov', require: false
   gem 'database_cleaner'
 end

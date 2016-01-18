@@ -12,7 +12,7 @@ RSpec.describe ApplicationFormsController, :type => :controller do
     end
 
     return { name: 'My First Application Form',
-             organization: organization
+             organization_id: organization.id
            }
   end
 
@@ -76,25 +76,38 @@ RSpec.describe ApplicationFormsController, :type => :controller do
     end
   end
 
-  describe "POST create" do
-    describe "with valid params" do
-      it "creates a new ApplicationForm" do
-        expect {
-          post :create, {:application_form => valid_attributes}
-        }.to change(ApplicationForm, :count).by(1)
-      end
+  describe 'POST create' do
+    context 'with an authorized user' do
+      describe 'with valid params' do
+        it 'creates a new ApplicationForm' do
+          expect {
+            post :create, {:application_form => valid_attributes(user)}
+          }.to change(ApplicationForm, :count).by(1)
+        end
 
-      it "assigns a newly created application_form as @application_form" do
-        post :create, {:application_form => valid_attributes}
-        expect(assigns(:application_form)).to be_a(ApplicationForm)
-        expect(assigns(:application_form)).to be_persisted
+        it 'assigns a newly created application_form as @application_form' do
+          post :create, {:application_form => valid_attributes(user)}
+          expect(assigns(:application_form)).to be_a(ApplicationForm)
+          expect(assigns(:application_form)).to be_persisted
+        end
+      end
+      describe 'with invalid params' do
+        it 'assigns a newly created but unsaved application_form as @application_form' do
+          post :create, {:application_form => invalid_attributes}
+          expect(assigns(:application_form)).to be_a_new(ApplicationForm)
+        end
       end
     end
 
-    describe "with invalid params" do
-      it "assigns a newly created but unsaved application_form as @application_form" do
-        post :create, {:application_form => invalid_attributes}
-        expect(assigns(:application_form)).to be_a_new(ApplicationForm)
+    context 'with an unauthorized user' do
+      it 'does not create an application form' do
+        expect {
+          post :create, {:application_form => valid_attributes}
+        }.to change(ApplicationForm, :count).by(0)
+      end
+      it 'returns 403' do
+        post :create, {:application_form => valid_attributes}
+        expect(response).to have_http_status(403)
       end
     end
   end

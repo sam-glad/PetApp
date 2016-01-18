@@ -144,11 +144,26 @@ RSpec.describe ApplicationFormsController, :type => :controller do
   end
 
   describe "DELETE destroy" do
-    it "destroys the requested application_form" do
-      application_form = ApplicationForm.create! valid_attributes
-      expect {
+    context 'with an authorized user' do
+      it "destroys the requested application_form" do
+        application_form = ApplicationForm.create! valid_attributes(user)
+        expect {
+          delete :destroy, {:id => application_form.to_param}
+        }.to change(ApplicationForm, :count).by(-1)
+      end
+    end
+    context 'with an unauthorized user' do
+      it 'destroys the requested application_form' do
+        application_form = ApplicationForm.create! valid_attributes
+        expect {
+          delete :destroy, {:id => application_form.to_param}
+        }.to change(ApplicationForm, :count).by(0)
+      end
+      it 'returns 403' do
+        application_form = ApplicationForm.create! valid_attributes
         delete :destroy, {:id => application_form.to_param}
-      }.to change(ApplicationForm, :count).by(-1)
+        expect(response).to have_http_status(403)
+      end
     end
   end
 

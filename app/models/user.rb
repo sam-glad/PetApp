@@ -27,7 +27,7 @@ class User < ActiveRecord::Base
       when PetApplication
         pet_application = model
         return !organization_membership.nil? ?
-          organization_membership.can_view_all_applications :
+          organization_membership.can_manage_pet_applications :
           self.id == pet_application.user_id
       when ApplicationForm
         application_form = model
@@ -44,7 +44,7 @@ class User < ActiveRecord::Base
       when PetApplication
         pet_application = model
         return !organization_membership.nil? ?
-          organization_membership.can_edit_all_applications :
+          organization_membership.can_manage_pet_applications :
           self.id == pet_application.user_id
       when Pet
         return (!organization_membership.nil? && organization_membership.can_edit_all_pets)
@@ -61,7 +61,7 @@ class User < ActiveRecord::Base
       when PetApplication
         pet_application = model
         return !organization_membership.nil? ?
-          organization_membership.can_delete_all_applications :
+          organization_membership.can_manage_pet_applications :
           self.id == pet_application.user_id
       when ApplicationForm
         return (!organization_membership.nil? && organization_membership.can_manage_application_forms)

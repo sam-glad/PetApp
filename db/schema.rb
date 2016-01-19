@@ -38,12 +38,13 @@ ActiveRecord::Schema.define(version: 20151211201640) do
   create_table "organization_memberships", force: :cascade do |t|
     t.integer  "organization_id"
     t.integer  "user_id"
-    t.datetime "created_at",                                  null: false
-    t.datetime "updated_at",                                  null: false
-    t.boolean  "can_view_all_applications",   default: false
-    t.boolean  "can_edit_all_applications",   default: false
-    t.boolean  "can_delete_all_applications", default: false
-    t.boolean  "can_edit_all_pets",           default: false
+    t.datetime "created_at",                                   null: false
+    t.datetime "updated_at",                                   null: false
+    t.boolean  "can_view_all_applications",    default: false
+    t.boolean  "can_edit_all_applications",    default: false
+    t.boolean  "can_delete_all_applications",  default: false
+    t.boolean  "can_edit_all_pets",            default: false
+    t.boolean  "can_manage_application_forms", default: false
   end
 
   create_table "organizations", force: :cascade do |t|

@@ -43,15 +43,10 @@ RSpec.describe PetApplicationsController, type: :controller do
     sign_in user
   end
 
-  def valid_session
-    {"warden.user.user.key" => session["warden.user.user.key"]}
-  end
-
   let(:user) { FactoryGirl.create(:user) }
 
   before(:each) do
-    @request.env["devise.mapping"] = Devise.mappings[:user]
-    sign_in user
+    login(user)
   end
 
   describe "GET #index" do
@@ -82,7 +77,7 @@ RSpec.describe PetApplicationsController, type: :controller do
     context "with valid params" do
       it "creates a new PetApplication" do
         expect {
-          post :create, {pet_application: valid_attributes}, valid_session
+          post :create, {pet_application: valid_attributes}
         }.to change(PetApplication, :count).by(1)
       end
 

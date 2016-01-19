@@ -9,8 +9,6 @@ class User < ActiveRecord::Base
 
   ###### Methods concerning permissions ######
 
-  AUTHORIZATION_ARGUMENT_ERROR_MESSAGE = 'Wrong type passed - only PetApplications and Pets allowed'
-
   def can_create?(model)
     organization_membership = find_organization_membership(model.organization_id)
     return false if organization_membership.nil? # TODO: Add this check to other authorization methods!!!
@@ -19,13 +17,8 @@ class User < ActiveRecord::Base
         return (!organization_membership.nil? && organization_membership.can_manage_application_forms)
       else
         # TODO: Is this the right error message for this? Double check
-        raise ArgumentError.new(AUTHORIZATION_ARGUMENT_ERROR_MESSAGE)
+        raise ArgumentError.new('Wrong type passed - only PetApplications allowed')
     end
-  end
-
-  def can_view_all_pet_applications?(organization_id)
-    organization_membership = find_organization_membership(organization_id)
-    return !organization_membership.nil? ? organization_membership.can_view_all_applications : false
   end
 
   def can_view?(model)
@@ -40,12 +33,11 @@ class User < ActiveRecord::Base
         application_form = model
         return (!organization_membership.nil? && organization_membership.can_manage_application_forms)
       else
-        raise ArgumentError.new(AUTHORIZATION_ARGUMENT_ERROR_MESSAGE)
+        raise ArgumentError.new('Wrong type passed - only PetApplications and ApplicationForms allowed')
     end
   end
 
-  # This is already getting way too busy
-  # TODO: Separate class-specific logic (conditions) into individual methods
+  # TODO: Separate class-specific logic (conditions) into individual methods?
   def can_edit?(model)
     organization_membership = find_organization_membership(model.organization_id)
     case model
@@ -59,7 +51,7 @@ class User < ActiveRecord::Base
       when ApplicationForm
         return (!organization_membership.nil? && organization_membership.can_manage_application_forms)
       else
-        raise ArgumentError.new(AUTHORIZATION_ARGUMENT_ERROR_MESSAGE)
+        raise ArgumentError.new('Wrong type passed - only PetApplications, Pets, and ApplicationForms allowed')
     end
   end
 
@@ -74,7 +66,7 @@ class User < ActiveRecord::Base
       when ApplicationForm
         return (!organization_membership.nil? && organization_membership.can_manage_application_forms)
       else
-        raise ArgumentError.new(AUTHORIZATION_ARGUMENT_ERROR_MESSAGE)
+        raise ArgumentError.new('Wrong type passed - only PetApplications and ApplicationForms allowed')
     end
   end
 

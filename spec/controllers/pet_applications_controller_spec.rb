@@ -50,10 +50,19 @@ RSpec.describe PetApplicationsController, type: :controller do
   end
 
   describe "GET #index" do
-    it "assigns an organization's pet_applications as @pet_applications" do
-      pet_application = PetApplication.create! valid_attributes
-      get :index, {organization_id: pet_application.pet.organization_id}
-      expect(assigns(:pet_applications)).to eq([pet_application])
+    context 'with an authorized user' do
+      it "assigns an organization's pet_applications as @pet_applications" do
+        pet_application = PetApplication.create! valid_attributes(user)
+        get :index, {organization_id: pet_application.pet.organization_id}
+        expect(assigns(:pet_applications)).to eq([pet_application])
+      end
+    end
+    context 'with an unauthorized user' do
+      it 'returns 403' do
+        pet_application = PetApplication.create! valid_attributes
+        get :index, {organization_id: pet_application.pet.organization_id}
+        expect(response).to have_http_status(403)
+      end
     end
   end
 

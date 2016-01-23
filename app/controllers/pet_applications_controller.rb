@@ -5,6 +5,7 @@ class PetApplicationsController < ApplicationController
   # GET organizations/1/pet_applications.json
   def index
     @pet_applications = PetApplication.where(organization_id: params['organization_id'])
+    authorize @pet_applications
 
     render json: @pet_applications
   end

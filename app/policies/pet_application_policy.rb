@@ -6,6 +6,10 @@ class PetApplicationPolicy < ApplicationPolicy
     @pet_application = pet_application
   end
 
+  def index?
+    return user.can_view?(pet_application.first)
+  end
+
   def show?
     return user.can_view?(pet_application)
   end

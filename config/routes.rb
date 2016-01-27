@@ -1,14 +1,19 @@
 Rails.application.routes.draw do
-  resources :pet_applications, except: [:index, :new, :edit]
-  resources :organizations do
-    resources :pet_applications, only: [:index]
-    resources :application_forms, only: [:index]
+  namespace :api do
+    namespace :v1 do
+      resources :pet_applications, except: [:index, :new, :edit]
+      resources :organizations do
+        resources :pet_applications, only: [:index]
+        resources :application_forms, only: [:index]
+      end
+      resources :application_forms, except: [:index, :new, :edit]
+      resources :organizations, except: [:new, :edit]
+      resources :organization_memberships, except: [:new, :edit]
+      resources :pets, except: [:create, :new, :edit, :destroy]
+      resources :application_forms, except: [:new, :edit]
+    end
   end
-  resources :application_forms, except: [:index, :new, :edit]
-  resources :organizations, except: [:new, :edit]
-  resources :organization_memberships, except: [:new, :edit]
-  resources :pets, except: [:create, :new, :edit, :destroy]
-  resources :application_forms, except: [:new, :edit]
+
   mount_devise_token_auth_for 'User', at: 'auth'
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

@@ -1,4 +1,4 @@
-class PetApplicationsController < ApplicationController
+class Api::PetApplicationsController < ApplicationController
   before_action :set_pet_application, only: [:show, :update, :destroy]
 
   # GET organizations/1/pet_applications
@@ -26,7 +26,7 @@ class PetApplicationsController < ApplicationController
     @pet_application.organization_id = @pet_application.pet.organization_id
 
     if @pet_application.save
-      render json: @pet_application, status: :created, location: @pet_application
+      render json: @pet_application, status: :created, location: nil
     else
       render json: @pet_application.errors, status: :unprocessable_entity
     end

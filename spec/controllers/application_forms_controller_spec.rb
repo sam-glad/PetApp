@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe ApplicationFormsController, :type => :controller do
+RSpec.describe Api::ApplicationFormsController, :type => :controller do
 
   def valid_attributes(user = nil)
     organization = FactoryGirl.create(:organization)

@@ -1,4 +1,4 @@
-class ApplicationFormsController < ApplicationController
+class Api::ApplicationFormsController < ApplicationController
   before_action :set_application_form, only: [:show, :update, :destroy]
 
   # GET /application_forms
@@ -24,7 +24,7 @@ class ApplicationFormsController < ApplicationController
     authorize @application_form
 
     if @application_form.save
-      render json: @application_form, status: :created, location: @application_form
+      render json: @application_form, status: :created, location: nil
     else
       render json: @application_form.errors, status: :unprocessable_entity
     end

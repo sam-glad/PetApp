@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe PetApplicationsController, type: :controller do
+RSpec.describe Api::PetApplicationsController, type: :controller do
 
   def valid_attributes(user = nil)
     user ||= FactoryGirl.create(:user)

@@ -1,4 +1,4 @@
-class OrganizationsController < ApplicationController
+class Api::OrganizationsController < ApplicationController
   before_action :set_organization, only: [:show, :update, :destroy]
   # before_filter :authenticate_user!, :only => [:create, :update, :destroy]
 
@@ -22,7 +22,7 @@ class OrganizationsController < ApplicationController
     @organization = Organization.new(organization_params)
 
     if @organization.save
-      render json: @organization, status: :created, location: @organization
+      render json: @organization, status: :created, location: nil
     else
       render json: @organization.errors, status: :unprocessable_entity
     end

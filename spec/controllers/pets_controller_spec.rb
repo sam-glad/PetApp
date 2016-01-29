@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe PetsController, :type => :controller do
+RSpec.describe Api::PetsController, :type => :controller do
 
   def valid_attributes(user = nil, user_can_edit_pets = false)
     organization = FactoryGirl.create(:organization)

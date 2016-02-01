@@ -7,8 +7,9 @@ class User < ActiveRecord::Base
           :recoverable, :rememberable, :trackable, :validatable, :omniauthable
   include DeviseTokenAuth::Concerns::User
 
-  def as_json
-    return super.merge('organizationMemberships' => OrganizationMembership.where(user_id: self.id))
+  # Override so JS can check for permissions
+  def as_json(options = {})
+    return UserSerializer.new(self).as_json
   end
 
   ###### Methods concerning permissions ######

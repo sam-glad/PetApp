@@ -7,6 +7,10 @@ class User < ActiveRecord::Base
           :recoverable, :rememberable, :trackable, :validatable, :omniauthable
   include DeviseTokenAuth::Concerns::User
 
+  def as_json
+    return super.merge('organizationMemberships' => OrganizationMembership.where(user_id: self.id))
+  end
+
   ###### Methods concerning permissions ######
 
   def can_create?(model)

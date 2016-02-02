@@ -9,7 +9,7 @@ class User < ActiveRecord::Base
 
   # Override so JS can check for permissions
   def as_json(options = {})
-    return UserSerializer.new(self).as_json
+    return UserSerializer.new(self).as_json[:user]
   end
 
   ###### Methods concerning permissions ######

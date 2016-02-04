@@ -6,4 +6,6 @@ class UserSerializer < ActiveModel::Serializer
     return ActiveModel::ArraySerializer.new(organization_memberships,
       serializer: OrganizationMembershipSerializer).as_json
   end
+
+  has_many :organizations
 end

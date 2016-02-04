@@ -21,6 +21,4 @@ class OrganizationSerializer < ActiveModel::Serializer
   def phonePreferred
     return object.phone_preferred
   end
-
-  has_many :users
 end

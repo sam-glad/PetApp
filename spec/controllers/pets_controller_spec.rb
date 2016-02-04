@@ -6,8 +6,7 @@ RSpec.describe Api::PetsController, :type => :controller do
     organization = FactoryGirl.create(:organization)
     user ||= FactoryGirl.create(:user)
     if user_can_edit_pets
-      OrganizationMembership.create(user_id: user.id,
-        organization_id: organization.id, can_edit_all_pets: true)
+      OrganizationMembership.create(user_id: user.id, organization_id: organization.id, is_admin: true)
     end
 
     return {

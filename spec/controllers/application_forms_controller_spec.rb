@@ -5,8 +5,7 @@ RSpec.describe Api::ApplicationFormsController, :type => :controller do
   def valid_attributes(user = nil)
     organization = FactoryGirl.create(:organization)
     if user
-      OrganizationMembership.create(user_id: user.id, organization_id: organization.id,
-        can_manage_application_forms: true)
+      OrganizationMembership.create(user_id: user.id, organization_id: organization.id, is_admin: true)
     else
       user = FactoryGirl.create(:user)
     end

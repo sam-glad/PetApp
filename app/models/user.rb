@@ -16,13 +16,12 @@ class User < ActiveRecord::Base
 
   def can_create?(model)
     organization_membership = find_organization_membership(model.organization_id)
-    return false if organization_membership.nil? # TODO: Add this check to other authorization methods!!!
+    return false if organization_membership.nil?
     case model
       when ApplicationForm
-        return (!organization_membership.nil? && organization_membership.can_manage_application_forms)
+        return (!organization_membership.nil? && organization_membership.is_admin)
       else
-        # TODO: Is this the right error message for this? Double check
-        raise ArgumentError.new('Wrong type passed - only PetApplications allowed')
+        raise ArgumentError.new('Wrong type passed - only ApplicationForms allowed')
     end
   end
 
@@ -32,29 +31,28 @@ class User < ActiveRecord::Base
       when PetApplication
         pet_application = model
         return !organization_membership.nil? ?
-          organization_membership.can_manage_pet_applications :
+          organization_membership.is_admin :
           self.id == pet_application.user_id
       when ApplicationForm
         application_form = model
-        return (!organization_membership.nil? && organization_membership.can_manage_application_forms)
+        return (!organization_membership.nil? && organization_membership.is_admin)
       else
         raise ArgumentError.new('Wrong type passed - only PetApplications and ApplicationForms allowed')
     end
   end
 
-  # TODO: Separate class-specific logic (conditions) into individual methods?
   def can_edit?(model)
     organization_membership = find_organization_membership(model.organization_id)
     case model
       when PetApplication
         pet_application = model
         return !organization_membership.nil? ?
-          organization_membership.can_manage_pet_applications :
+          organization_membership.is_admin :
           self.id == pet_application.user_id
       when Pet
-        return (!organization_membership.nil? && organization_membership.can_edit_all_pets)
+        return (!organization_membership.nil? && organization_membership.is_admin)
       when ApplicationForm
-        return (!organization_membership.nil? && organization_membership.can_manage_application_forms)
+        return (!organization_membership.nil? && organization_membership.is_admin)
       else
         raise ArgumentError.new('Wrong type passed - only PetApplications, Pets, and ApplicationForms allowed')
     end
@@ -66,10 +64,10 @@ class User < ActiveRecord::Base
       when PetApplication
         pet_application = model
         return !organization_membership.nil? ?
-          organization_membership.can_manage_pet_applications :
+          organization_membership.is_admin :
           self.id == pet_application.user_id
       when ApplicationForm
-        return (!organization_membership.nil? && organization_membership.can_manage_application_forms)
+        return (!organization_membership.nil? && organization_membership.is_admin)
       else
         raise ArgumentError.new('Wrong type passed - only PetApplications and ApplicationForms allowed')
     end

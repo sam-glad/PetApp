@@ -5,6 +5,7 @@ describe OrganizationMembership do
     describe 'name' do
        it { should validate_presence_of(:user_id) }
        it { should validate_presence_of(:organization_id) }
+       it { should have_db_index([:user_id, :organization_id]) }
     end
   end
 

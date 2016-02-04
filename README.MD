@@ -4,4 +4,4 @@ Note that this is a Rails API, and, once deployed on Heroku, it will be accessed
 
 I have been using this project as an opportunity not only to review Ruby on Rails and continue learning AngularJS, but also to learn about CORS hands-on and to practice TDD again, which I have been pleasantly surprised to find that I have been enjoying.
 
-![ER Diagram](http://i.imgur.com/BS5f7cz.jpg)
+![ER Diagram](http://i.imgur.com/pCpZbgx.jpg)

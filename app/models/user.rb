@@ -1,6 +1,6 @@
 class User < ActiveRecord::Base
   has_many :organization_memberships
-  has_many :organizations, :through => :organization_memberships
+  has_many :organizations, through: :organization_memberships
 
   # Include default devise modules.
   devise :database_authenticatable, :registerable,
@@ -19,7 +19,7 @@ class User < ActiveRecord::Base
     return false if organization_membership.nil?
     case model
       when ApplicationForm
-        return (!organization_membership.nil? && organization_membership.is_admin)
+        return organization_membership.is_admin
       else
         raise ArgumentError.new('Wrong type passed - only ApplicationForms allowed')
     end

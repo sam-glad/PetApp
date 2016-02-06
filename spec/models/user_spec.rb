@@ -6,6 +6,7 @@ RSpec.describe User, type: :model do
   let(:organization) { FactoryGirl.create(:organization) }
   let(:application_form) { ApplicationForm.new(organization: organization) }
   let(:pet) { Pet.new(organization: organization) }
+  let(:question) { FactoryGirl.create(:question) }
 
   def create_organization_membership(user, is_admin = false)
     return OrganizationMembership.create(user_id: user.id, organization_id: organization.id, is_admin: is_admin)
@@ -19,17 +20,22 @@ RSpec.describe User, type: :model do
     it { should have_many(:organizations).through(:organization_memberships) }
   end
 
+  context 'as_json' do
+    it 'should merge the default serialized user (from AMS) with result from custom serializer' do
+      expect(user.as_json()).to eq(UserSerializer.new(user).as_json[:user])
+    end
+  end
+
   # TODO: Clean up the way the tests are worded when they fail
   context 'permissions:' do
     context 'can_create?' do
+      it 'raises an ArgumentError with the wrong model' do
+        expect{user.can_create?(question)}.to raise_error(ArgumentError, 'Wrong type passed - only ApplicationForms allowed')
+      end
+
       it 'returns false when the user is not in the organization' do
         # No organization_membership
         expect(user.can_create?(application_form)).to eq(false)
-      end
-
-      it 'raises an ArgumentError with the wrong model' do
-        built_pet = FactoryGirl.build(:pet)
-        expect{user.can_create?(pet).to raise_error(ArgumentError, 'Wrong type passed - only ApplicationForms allowed')}
       end
 
       it 'returns false when is_admin is false' do
@@ -45,7 +51,7 @@ RSpec.describe User, type: :model do
 
     context 'can_view?' do
       it 'raises an ArgumentError with the wrong model' do
-        expect{user.can_create?(pet).to raise_error(ArgumentError, 'Wrong type passed - only PetApplications and ApplicationForms allowed')}
+        expect{user.can_view?(question)}.to raise_error(ArgumentError, 'Wrong type passed - only PetApplications and ApplicationForms allowed')
       end
 
       context 'application forms' do
@@ -94,7 +100,6 @@ RSpec.describe User, type: :model do
 
     context 'can_edit?' do
       it 'raises an ArgumentError with the wrong model' do
-        question = FactoryGirl.create(:question)
         expect{user.can_edit?(question)}.to raise_error(ArgumentError, 'Wrong type passed - only PetApplications, Pets, and ApplicationForms allowed')
       end
 
@@ -161,7 +166,6 @@ RSpec.describe User, type: :model do
 
     context 'can_delete?' do
       it 'raises an ArgumentError with the wrong model' do
-        question = FactoryGirl.create(:question)
         expect{user.can_delete?(question)}.to raise_error(ArgumentError, 'Wrong type passed - only PetApplications and ApplicationForms allowed')
       end
 

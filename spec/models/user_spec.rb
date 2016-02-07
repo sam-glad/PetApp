@@ -114,42 +114,42 @@ RSpec.describe User, type: :model do
       end
     end
 
-    context 'can_edit?' do
+    context 'can_update?' do
       it 'raises an ArgumentError with the wrong model' do
-        expect{user.can_edit?(question)}.to raise_error(ArgumentError, 'Wrong type passed - only PetApplications, Pets, and ApplicationForms allowed')
+        expect{user.can_update?(question)}.to raise_error(ArgumentError, 'Wrong type passed - only PetApplications, Pets, and ApplicationForms allowed')
       end
 
       context 'application forms' do
         it 'returns false when the user is not in the organization' do
           # No organization_membership
-          expect(user.can_edit?(application_form)).to eq(false)
+          expect(user.can_update?(application_form)).to eq(false)
         end
 
         it 'returns true when the user is in the organization with admin privileges' do
           create_organization_membership(user, true)
-          expect(user.can_edit?(application_form)).to eq(true)
+          expect(user.can_update?(application_form)).to eq(true)
         end
 
         it 'returns false when the user is in the organization without admin privileges' do
           create_organization_membership(user, false)
-          expect(user.can_edit?(application_form)).to eq(false)
+          expect(user.can_update?(application_form)).to eq(false)
         end
       end
 
       context 'pets' do
         it 'returns false when the user is not in the organization' do
           # No organization_membership
-          expect(user.can_edit?(pet)).to eq(false)
+          expect(user.can_update?(pet)).to eq(false)
         end
 
         it 'returns false when the user is in the organization without admin privileges' do
           create_organization_membership(user, false)
-          expect(user.can_edit?(pet)).to eq(false)
+          expect(user.can_update?(pet)).to eq(false)
         end
 
         it 'returns true when the user is in the organization with admin privileges' do
           create_organization_membership(user, true)
-          expect(user.can_edit?(pet)).to eq(true)
+          expect(user.can_update?(pet)).to eq(true)
         end
       end
 
@@ -157,25 +157,25 @@ RSpec.describe User, type: :model do
         it 'returns true if the user owns the pet application' do
           # No organization_membership
           pet_application = PetApplication.new(user: user)
-          expect(user.can_edit?(pet_application)).to eq(true)
+          expect(user.can_update?(pet_application)).to eq(true)
         end
 
         it 'returns false if the user does not own the pet application and has no admin privileges' do
           # No organization_membership
           pet_application = PetApplication.new(user: other_user)
-          expect(user.can_edit?(pet_application)).to eq(false)
+          expect(user.can_update?(pet_application)).to eq(false)
         end
 
         it 'returns true if the user is in the organization with admin privileges' do
           create_organization_membership(user, true)
           pet_application = PetApplication.new(user: user)
-          expect(user.can_edit?(pet_application)).to eq(true)
+          expect(user.can_update?(pet_application)).to eq(true)
         end
 
         it 'returns false if the user is in the organization without admin privileges' do
           create_organization_membership(user, false)
           pet_application = PetApplication.new(user: other_user)
-          expect(user.can_edit?(pet_application)).to eq(false)
+          expect(user.can_update?(pet_application)).to eq(false)
         end
       end
     end

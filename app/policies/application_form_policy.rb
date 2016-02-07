@@ -19,7 +19,7 @@ class ApplicationFormPolicy < ApplicationPolicy
   end
 
   def update?
-    return user.can_edit?(application_form)
+    return user.can_update?(application_form)
   end
 
   def destroy?

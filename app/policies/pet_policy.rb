@@ -7,6 +7,6 @@ class PetPolicy < ApplicationPolicy
   end
 
   def update?
-    return user.can_edit?(pet)
+    return user.can_update?(pet)
   end
 end

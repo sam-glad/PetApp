@@ -38,7 +38,7 @@ class User < ActiveRecord::Base
     end
   end
 
-  def can_edit?(model)
+  def can_update?(model)
     organization_membership = find_organization_membership(model)
     case model
       when PetApplication

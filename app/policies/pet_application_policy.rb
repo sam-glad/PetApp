@@ -15,7 +15,7 @@ class PetApplicationPolicy < ApplicationPolicy
   end
 
   def update?
-    return user.can_edit?(pet_application)
+    return user.can_update?(pet_application)
   end
 
   def destroy?

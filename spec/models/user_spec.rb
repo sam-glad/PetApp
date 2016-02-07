@@ -26,6 +26,22 @@ RSpec.describe User, type: :model do
     end
   end
 
+  context 'find_organization_membership' do
+    it 'should find an OrganizationMembership when the model has an organization_id column' do
+      create_organization_membership(user, true)
+      expect(user.find_organization_membership(application_form)).to be_an_instance_of(OrganizationMembership)
+    end
+
+    it 'should return nil when no OrganizationMembership exists' do
+      # No OrganizationMembership linking user and application_form
+      expect(user.find_organization_membership(application_form)).to be(nil)
+    end
+
+    it 'should return nil when the model does not have an organization_id column' do
+      expect(user.find_organization_membership(application_form)).to be(nil)
+    end
+  end
+
   # TODO: Clean up the way the tests are worded when they fail
   context 'permissions:' do
     context 'can_create?' do

@@ -15,65 +15,68 @@ class User < ActiveRecord::Base
   ###### Methods concerning permissions ######
 
   def can_create?(model)
-    organization_membership = find_organization_membership(model.organization_id)
-    return false if organization_membership.nil?
+    organization_membership = find_organization_membership(model)
     case model
       when ApplicationForm
-        return organization_membership.is_admin
+        return has_application_form_privileges(organization_membership)
       else
         raise ArgumentError.new('Wrong type passed - only ApplicationForms allowed')
     end
   end
 
   def can_view?(model)
-    organization_membership = find_organization_membership(model.organization_id)
+    organization_membership = find_organization_membership(model)
     case model
       when PetApplication
         pet_application = model
-        return !organization_membership.nil? ?
-          organization_membership.is_admin :
-          self.id == pet_application.user_id
+        return has_pet_application_privileges(organization_membership, pet_application)
       when ApplicationForm
         application_form = model
-        return (!organization_membership.nil? && organization_membership.is_admin)
+        return has_application_form_privileges(organization_membership)
       else
         raise ArgumentError.new('Wrong type passed - only PetApplications and ApplicationForms allowed')
     end
   end
 
   def can_edit?(model)
-    organization_membership = find_organization_membership(model.organization_id)
+    organization_membership = find_organization_membership(model)
     case model
       when PetApplication
         pet_application = model
-        return !organization_membership.nil? ?
-          organization_membership.is_admin :
-          self.id == pet_application.user_id
+        return has_pet_application_privileges(organization_membership, pet_application)
       when Pet
-        return (!organization_membership.nil? && organization_membership.is_admin)
+        return has_application_form_privileges(organization_membership)
       when ApplicationForm
-        return (!organization_membership.nil? && organization_membership.is_admin)
+        return has_application_form_privileges(organization_membership)
       else
         raise ArgumentError.new('Wrong type passed - only PetApplications, Pets, and ApplicationForms allowed')
     end
   end
 
   def can_delete?(model)
-    organization_membership = find_organization_membership(model.organization_id)
+    organization_membership = find_organization_membership(model)
     case model
       when PetApplication
         pet_application = model
-        return !organization_membership.nil? ?
-          organization_membership.is_admin :
-          self.id == pet_application.user_id
+        return has_pet_application_privileges(organization_membership, pet_application)
       when ApplicationForm
-        return (!organization_membership.nil? && organization_membership.is_admin)
+        return has_application_form_privileges(organization_membership)
       else
         raise ArgumentError.new('Wrong type passed - only PetApplications and ApplicationForms allowed')
     end
   end
 
-  def find_organization_membership(organization_id)
-    return OrganizationMembership.find_by(organization_id: organization_id, user_id: self.id)
+  def find_organization_membership(model)
+    return model.class.column_names.include?('organization_id') ?
+      OrganizationMembership.find_by(organization_id: model.organization_id, user_id: self.id) : nil
+  end
+
+  def has_pet_application_privileges(organization_membership, pet_application)
+    return organization_membership.nil? ?
+      self.id == pet_application.user_id : organization_membership.is_admin
+  end
+
+  def has_application_form_privileges(organization_membership)
+    (!organization_membership.nil? && organization_membership.is_admin)
   end
 end

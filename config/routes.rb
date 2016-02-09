@@ -4,7 +4,7 @@ Rails.application.routes.draw do
       resources :organization_memberships, only: [:index]
     end
     resources :pet_applications, except: [:index, :new, :edit]
-    resources :organizations do
+    resources :organizations, except: [:new, :edit] do
       resources :pet_applications, only: [:index]
       resources :application_forms, only: [:index]
     end

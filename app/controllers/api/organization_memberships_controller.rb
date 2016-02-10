@@ -5,7 +5,7 @@ class Api::OrganizationMembershipsController < ApplicationController
   # GET /users/1/organization_memberships.json
   def index
     @organization_memberships = OrganizationMembership.where(user_id: params['user_id'])
-    authorize @organization_membership
+    # authorize @organization_membership
 
     render json: @organization_memberships
   end
@@ -13,14 +13,14 @@ class Api::OrganizationMembershipsController < ApplicationController
   # GET /organization_memberships/1
   # GET /organization_memberships/1.json
   def show
-    authorize @organization_membership
+    # authorize @organization_membership
     render json: @organization_membership
   end
 
   # PATCH/PUT /organization_memberships/1
   # PATCH/PUT /organization_memberships/1.json
   def update
-    authorize @organization_membership
+    # authorize @organization_membership
 
     if @organization_membership.update(organization_membership_params)
       head :no_content
@@ -31,7 +31,7 @@ class Api::OrganizationMembershipsController < ApplicationController
 
   private
 
-    def set_organization_memberships
+    def set_organization_membership
       @organization_membership = OrganizationMembership.find(params[:id])
     end
 

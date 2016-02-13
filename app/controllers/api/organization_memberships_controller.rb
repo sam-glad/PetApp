@@ -35,7 +35,7 @@ class Api::OrganizationMembershipsController < ApplicationController
       @organization_membership = OrganizationMembership.find(params[:id])
     end
 
-    def organization_memberships_params
+    def organization_membership_params
       params.require(:organization_membership).permit(:is_admin)
     end
 end

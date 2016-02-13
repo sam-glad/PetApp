@@ -60,21 +60,21 @@ RSpec.describe Api::OrganizationMembershipsController, type: :controller do
     # end
   end
 
-  # describe 'POST create' do
-  #   context 'with valid params' do
-  #     it 'creates a new OrganizationMembership' do
-  #       expect {
-  #         post :create, {organization_membership: valid_attributes(true)}
-  #       }.to change(OrganizationMembership, :count).by(1)
-  #     end
-  #
-  #     it 'assigns a newly created organization membership as @organization_membership' do
-  #       post :create, {organization_membership: valid_attributes}
-  #       expect(assigns(:organization_membership)).to be_a(OrganizationMembership)
-  #       expect(assigns(:organization_membership)).to be_persisted
-  #     end
-  #   end
-  # end
+  describe 'POST create' do
+    context 'with valid params' do
+      it 'creates a new OrganizationMembership' do
+        expect {
+          post :create, {organization_membership: valid_attributes(true)}
+        }.to change(OrganizationMembership, :count).by(1)
+      end
+
+      it 'assigns a newly created organization membership as @organization_membership' do
+        post :create, {organization_membership: valid_attributes(true)}
+        expect(assigns(:organization_membership)).to be_a(OrganizationMembership)
+        expect(assigns(:organization_membership)).to be_persisted
+      end
+    end
+  end
 
   describe 'PUT update' do
     describe 'with valid params' do

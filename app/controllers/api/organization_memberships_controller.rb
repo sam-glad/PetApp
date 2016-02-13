@@ -17,12 +17,25 @@ class Api::OrganizationMembershipsController < ApplicationController
     render json: @organization_membership
   end
 
+  # POST /organization_memberships
+  # POST /organization_memberships.json
+  def create
+    @organization_membership = OrganizationMembership.new(organization_membership_create_params)
+    # authorize @organization_membership
+
+    if @organization_membership.save
+      render json: @organization_membership, status: :created, location: nil
+    else
+      render json: @organization_membership.errors, status: :unprocessable_entity
+    end
+  end
+
   # PATCH/PUT /organization_memberships/1
   # PATCH/PUT /organization_memberships/1.json
   def update
     # authorize @organization_membership
 
-    if @organization_membership.update(organization_membership_params)
+    if @organization_membership.update(organization_membership_update_params)
       head :no_content
     else
       render json: @organization_membership.errors, status: :unprocessable_entity
@@ -35,7 +48,11 @@ class Api::OrganizationMembershipsController < ApplicationController
       @organization_membership = OrganizationMembership.find(params[:id])
     end
 
-    def organization_membership_params
+    def organization_membership_create_params
+      params.require(:organization_membership).permit(:organization_id, :user_id, :is_admin)
+    end
+
+    def organization_membership_update_params
       params.require(:organization_membership).permit(:is_admin)
     end
 end

@@ -30,7 +30,7 @@ RSpec.describe Api::OrganizationMembershipsController, type: :controller do
     login(user)
   end
 
-  describe 'GET #index' do
+  describe 'GET index' do
     context 'with an authorized user' do
       it 'assigns an organization\'s pet_applications as @pet_applications' do
         organization_membership = OrganizationMembership.create! valid_attributes(true)
@@ -38,11 +38,14 @@ RSpec.describe Api::OrganizationMembershipsController, type: :controller do
         expect(assigns(:organization_memberships)).to eq([organization_membership])
       end
     end
-    # context 'with an unauthorized user' do
-    #   it 'returns 403' do
-    #     expect(response).to have_http_status(403)
-    #   end
-    # end
+    context 'with an unauthorized user' do
+      it 'returns 403' do
+        organization_membership = OrganizationMembership.create! valid_attributes(true)
+        allow_any_instance_of(User).to receive(:can_view?).and_return(false)
+        get :index, {user_id: organization_membership.user_id}
+        expect(response).to have_http_status(403)
+      end
+    end
   end
 
   describe 'GET show' do
@@ -53,11 +56,14 @@ RSpec.describe Api::OrganizationMembershipsController, type: :controller do
         expect(assigns(:organization_membership)).to eq(organization_membership)
       end
     end
-    # context 'with an unauthorized user' do
-    #   it 'returns 403' do
-    #     expect(response).to have_http_status(403)
-    #   end
-    # end
+    context 'with an unauthorized user' do
+      it 'returns 403' do
+        organization_membership = OrganizationMembership.create! valid_attributes(true)
+        allow_any_instance_of(User).to receive(:can_view?).and_return(false)
+        get :index, {user_id: organization_membership.user_id}
+        expect(response).to have_http_status(403)
+      end
+    end
   end
 
   describe 'POST create' do
@@ -77,28 +83,53 @@ RSpec.describe Api::OrganizationMembershipsController, type: :controller do
   end
 
   describe 'PUT update' do
-    describe 'with valid params' do
-      it 'updates the requested organization' do
-        organization_membership = OrganizationMembership.create! valid_attributes(true)
-        put :update, {id: organization_membership.to_param, organization_membership: new_attributes}
-        organization_membership.reload
-        new_attributes.each_pair do |key, value|
-          expect(organization_membership[key]).to eq(value)
+    context 'with an authorized user' do
+      describe 'with valid params' do
+        it 'updates the requested organization' do
+          organization_membership = OrganizationMembership.create! valid_attributes(true)
+          put :update, {id: organization_membership.to_param, organization_membership: new_attributes}
+          organization_membership.reload
+          new_attributes.each_pair do |key, value|
+            expect(organization_membership[key]).to eq(value)
+          end
+        end
+
+        it 'assigns the requested organization as @organization' do
+          organization_membership = OrganizationMembership.create! valid_attributes(true)
+          put :update, {id: organization_membership.to_param, organization_membership: valid_attributes(true)}
+          expect(assigns(:organization_membership)).to eq(organization_membership)
         end
       end
 
-      it 'assigns the requested organization as @organization' do
-        organization_membership = OrganizationMembership.create! valid_attributes(true)
-        put :update, {id: organization_membership.to_param, organization_membership: valid_attributes(true)}
-        expect(assigns(:organization_membership)).to eq(organization_membership)
+      describe 'with invalid params' do
+        it 'assigns the organization as @organization' do
+          organization_membership = OrganizationMembership.create! valid_attributes(true)
+          put :update, {id: organization_membership.to_param, organization_membership: invalid_attributes}
+          expect(assigns(:organization_membership)).to eq(organization_membership)
+        end
       end
     end
 
-    describe 'with invalid params' do
-      it 'assigns the organization as @organization' do
-        organization_membership = OrganizationMembership.create! valid_attributes(true)
-        put :update, {id: organization_membership.to_param, organization_membership: invalid_attributes}
-        expect(assigns(:organization_membership)).to eq(organization_membership)
+    context 'with an unauthorized user' do
+      describe 'with valid params' do
+        before(:each) do
+          allow_any_instance_of(User).to receive(:can_update?).and_return(false)
+        end
+
+        it 'fails to update the requested pet_application' do
+          organization_membership = OrganizationMembership.create! valid_attributes(true)
+          put :update, {id: organization_membership.to_param, organization_membership: new_attributes}
+          organization_membership.reload
+          valid_attributes(true).each_pair do |key, value|
+            expect(organization_membership[key]).to eq(value)
+          end
+        end
+
+        it 'returns 403' do
+          organization_membership = OrganizationMembership.create! valid_attributes(true)
+          put :update, {id: organization_membership.to_param, organization_membership: new_attributes}
+          expect(response).to have_http_status(403)
+        end
       end
     end
   end

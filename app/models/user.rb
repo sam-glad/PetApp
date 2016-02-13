@@ -33,8 +33,10 @@ class User < ActiveRecord::Base
       when ApplicationForm
         application_form = model
         return has_application_form_privileges(organization_membership)
+      when OrganizationMembership
+        return has_organization_membership_privileges(organization_membership)
       else
-        raise ArgumentError.new('Wrong type passed - only PetApplications and ApplicationForms allowed')
+        raise ArgumentError.new('Wrong type passed - only PetApplications, ApplicationForms, and OrganizationMemberships allowed')
     end
   end
 
@@ -48,8 +50,10 @@ class User < ActiveRecord::Base
         return has_application_form_privileges(organization_membership)
       when ApplicationForm
         return has_application_form_privileges(organization_membership)
+      when OrganizationMembership
+        return has_organization_membership_privileges(organization_membership)
       else
-        raise ArgumentError.new('Wrong type passed - only PetApplications, Pets, and ApplicationForms allowed')
+        raise ArgumentError.new('Wrong type passed - only PetApplications, Pets, ApplicationForms, and OrganizationMemberships allowed')
     end
   end
 
@@ -77,6 +81,10 @@ class User < ActiveRecord::Base
   end
 
   def has_application_form_privileges(organization_membership)
+    (!organization_membership.nil? && organization_membership.is_admin)
+  end
+
+  def has_organization_membership_privileges(organization_membership)
     (!organization_membership.nil? && organization_membership.is_admin)
   end
 end

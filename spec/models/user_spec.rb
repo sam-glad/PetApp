@@ -67,7 +67,7 @@ RSpec.describe User, type: :model do
 
     context 'can_view?' do
       it 'raises an ArgumentError with the wrong model' do
-        expect{user.can_view?(question)}.to raise_error(ArgumentError, 'Wrong type passed - only PetApplications and ApplicationForms allowed')
+        expect{user.can_view?(question)}.to raise_error(ArgumentError, 'Wrong type passed - only PetApplications, ApplicationForms, and OrganizationMemberships allowed')
       end
 
       context 'application forms' do
@@ -116,7 +116,7 @@ RSpec.describe User, type: :model do
 
     context 'can_update?' do
       it 'raises an ArgumentError with the wrong model' do
-        expect{user.can_update?(question)}.to raise_error(ArgumentError, 'Wrong type passed - only PetApplications, Pets, and ApplicationForms allowed')
+        expect{user.can_update?(question)}.to raise_error(ArgumentError, 'Wrong type passed - only PetApplications, Pets, ApplicationForms, and OrganizationMemberships allowed')
       end
 
       context 'application forms' do

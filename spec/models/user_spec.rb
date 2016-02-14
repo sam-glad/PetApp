@@ -26,6 +26,25 @@ RSpec.describe User, type: :model do
     end
   end
 
+  # TODO: Rebuilt most of these tests with similar mocks
+  # so that this file is no longer a mess
+  describe 'privilege checks' do
+    context 'has_pet_application_privileges' do
+      it 'should return false when there is no OrganizationMembership connecting the user and organization' do
+        pet_application = FactoryGirl.create(:pet_application)
+        allow_any_instance_of(User).to receive(:find_organization_membership).and_return(nil)
+        expect(user.has_pet_application_privileges(nil, pet_application)).to eq(false)
+      end
+
+      it 'should return true when there is an OrganizationMembership connecting the user and organization' do
+        organization_membership = OrganizationMembership.create(user_id: user.id, organization_id: organization.id, is_admin: true)
+        pet_application = FactoryGirl.create(:pet_application, organization_id: organization.id)
+        allow_any_instance_of(User).to receive(:find_organization_membership).and_return(FactoryGirl.create(:organization_membership))
+        expect(user.has_pet_application_privileges(organization_membership, pet_application)).to eq(true)
+      end
+    end
+  end
+
   context 'find_organization_membership' do
     it 'should find an OrganizationMembership when the model has an organization_id column' do
       create_organization_membership(user, true)

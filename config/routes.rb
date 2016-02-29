@@ -2,6 +2,7 @@ Rails.application.routes.draw do
   namespace :api do
     resources :users, except: [:new, :create, :index, :show, :edit, :update, :destroy] do
       resources :organization_memberships, only: [:index]
+      resources :admin_pet_applications, only: [:index]
     end
     resources :organization_memberships, except: [:index, :new, :edit, :destroy]
     resources :pet_applications, except: [:index, :new, :edit]

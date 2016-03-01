@@ -39,19 +39,19 @@ RSpec.describe Api::ApplicationFormsController, :type => :controller do
     context 'with an authorized user' do
       it 'assigns an organization\'s application_forms as @application_forms' do
         application_form = ApplicationForm.create! valid_attributes(user)
-        get :index, {organization_id: application_form.id}
+        get :index, {organization_id: application_form.organization_id}
         expect(assigns(:application_forms)).to eq([application_form])
       end
       it 'returns 200' do
         application_form = ApplicationForm.create! valid_attributes(user)
-        get :index, {organization_id: application_form.id}
+        get :index, {organization_id: application_form.organization_id}
         expect(response).to have_http_status(200)
       end
     end
     context 'with an unauthorized user' do
       it 'returns 403' do
         application_form = ApplicationForm.create! valid_attributes
-        get :index, {organization_id: application_form.id}
+        get :index, {organization_id: application_form.organization_id}
         expect(response).to have_http_status(403)
       end
     end
@@ -120,7 +120,6 @@ RSpec.describe Api::ApplicationFormsController, :type => :controller do
       describe "with valid params" do
         it 'updates the requested application_form' do
           application_form = ApplicationForm.create! valid_attributes(user)
-          # binding.pry
           put :update, {:id => application_form.to_param, :application_form => new_attributes}
           application_form.reload
           new_attributes.each_pair do |key, value|

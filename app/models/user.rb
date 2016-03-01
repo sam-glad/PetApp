@@ -12,6 +12,11 @@ class User < ActiveRecord::Base
     return UserSerializer.new(self).as_json[:user]
   end
 
+  def get_admin_organization_ids
+    admin_organization_membership_ids = OrganizationMembership.select('organization_id').where(user_id: self.id, is_admin: true)
+    return admin_organization_membership_ids.present? ? [admin_organization_membership_ids.first.organization_id] : []
+  end
+
   ###### Methods concerning permissions ######
 
   def can_create?(model)
@@ -71,7 +76,7 @@ class User < ActiveRecord::Base
   end
 
   def find_organization_membership(model)
-    return model.class.column_names.include?('organization_id') ?
+    return (!model.nil? && model.class.column_names.include?('organization_id')) ?
       OrganizationMembership.find_by(organization_id: model.organization_id, user_id: self.id) : nil
   end
 

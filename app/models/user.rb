@@ -12,9 +12,14 @@ class User < ActiveRecord::Base
     return UserSerializer.new(self).as_json[:user]
   end
 
-  def get_admin_organization_ids
-    admin_organization_membership_ids = OrganizationMembership.select('organization_id').where(user_id: self.id, is_admin: true)
-    return admin_organization_membership_ids.present? ? [admin_organization_membership_ids.first.organization_id] : []
+  def admin_organization_ids
+    admin_organization_membership_ids = OrganizationMembership.where(user_id: self.id, is_admin: true).pluck('organization_id')
+    return admin_organization_membership_ids.present? ? admin_organization_membership_ids : []
+  end
+
+  def admin_organizations
+    admin_organization_memberships = self.admin_organization_ids
+    return Organization.where(id: admin_organization_memberships)
   end
 
   ###### Methods concerning permissions ######
@@ -40,6 +45,8 @@ class User < ActiveRecord::Base
         return self.has_application_form_privileges(organization_membership)
       when OrganizationMembership
         return self.has_organization_membership_privileges(organization_membership)
+      when nil
+        return true
       else
         raise ArgumentError.new('Wrong type passed - only PetApplications, ApplicationForms, and OrganizationMemberships allowed')
     end

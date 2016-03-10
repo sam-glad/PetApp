@@ -2,6 +2,6 @@ language: ruby
 rvm:
   - 2.2.1
 before_script:
-  - psql -c 'create database PetApp_test;' -U postgres
+  - psql -c 'create database petapp_test;' -U postgres
 services:
   - redis-server

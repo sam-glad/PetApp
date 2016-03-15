@@ -1,5 +1,6 @@
 class UserSerializer < ActiveModel::Serializer
-  attributes :id, :name, :organizationMemberships, :adminOrganizationIds, :adminOrganizations
+  attributes :id, :name, :email, :organizationMemberships, :adminOrganizationIds,
+    :adminOrganizations
 
   def organizationMemberships
     organization_memberships = OrganizationMembership.where(user_id: id)
@@ -12,7 +13,7 @@ class UserSerializer < ActiveModel::Serializer
   end
 
   def adminOrganizations
-return object.admin_organizations
+    return object.admin_organizations
   end
 
   has_many :organizations

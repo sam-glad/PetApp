@@ -38,23 +38,27 @@ RSpec.describe Api::PetApplicationsController, type: :controller do
     }
   end
 
-  def login(user)
-    @request.env["devise.mapping"] = Devise.mappings[:user]
-    sign_in user
-  end
-
   let(:user) { FactoryGirl.create(:user) }
 
   before(:each) do
-    login(user)
+    sign_in user
   end
 
-  describe "GET #index" do
+  describe 'GET #index' do
     context 'with an authorized user' do
-      it "assigns an organization's pet_applications as @pet_applications" do
+      it 'assigns an organization\'s pet_applications as @pet_applications' do
         pet_application = PetApplication.create! valid_attributes(user)
         get :index, {organization_id: pet_application.pet.organization_id}
         expect(assigns(:pet_applications)).to eq([pet_application])
+      end
+
+      it 'returns organizations filtered by status' do
+        pet_application = PetApplication.create! valid_attributes(user)
+        another_pet_application = pet_application
+        # TODO: Replace hardcoded integer with enum
+        another_pet_application.update(status:1)
+        get :index, {organization_id: pet_application.pet.organization_id, status: 1}
+        expect(assigns(:pet_applications)).to eq([another_pet_application])
       end
     end
     context 'with an unauthorized user' do

@@ -1,9 +1,13 @@
 class PetApplication < ActiveRecord::Base
+  include Filterable
+
   validates :user, presence: true
   validates :pet, presence: true
   validates :organization, presence: true
   validates :status, presence: true
   validates :questions, presence: true
+
+  scope :status, -> (status) { where status: status }
 
   # enum status: [ :pending, :approved, :denied ]
   # enum type: [ :adoption, :foster ]

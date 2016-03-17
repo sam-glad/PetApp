@@ -11,7 +11,7 @@ class Api::AdminPetApplicationsController < ApplicationController
         render json: []
       end
 
-      @pet_applications = PetApplication.where(organization_id: current_user.admin_organization_ids)
+      @pet_applications = PetApplication.where(organization_id: current_user.admin_organization_ids).filter(params.slice(:status))
       authorize @pet_applications
       render json: @pet_applications
     else

@@ -12,6 +12,15 @@ RSpec.describe PetApplication, type: :model do
     end
   end
 
+  context 'default scope' do
+    let!(:pet_application_one) { FactoryGirl.create(:pet_application) }
+    let!(:pet_application_two) { FactoryGirl.create(:pet_application) }
+
+    it 'orders by created_at ascending' do
+      expect(PetApplication.all).to eq([pet_application_one, pet_application_two])
+    end
+  end
+
   context 'Associations' do
     it { should belong_to(:user) }
     it { should belong_to(:pet) }

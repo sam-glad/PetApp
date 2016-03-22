@@ -1,6 +1,8 @@
 class PetApplication < ActiveRecord::Base
   include Filterable
 
+  default_scope { order('created_at ASC') }
+
   validates :user, presence: true
   validates :pet, presence: true
   validates :organization, presence: true
